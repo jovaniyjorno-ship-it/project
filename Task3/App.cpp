@@ -12,10 +12,10 @@ void App::printList(const list<Request>& lst, const string& title) const {
     for (const auto& r : lst) {
         cout << " " << setfill('0') << setw(3) << row++ << setfill(' ')
             << " | ID: " << setw(4) << r.id
-            << " | Пункт: " << setw(10) << r.destination
-            << " | Рейс: " << setw(12) << r.flightNum
-            << " | Пассажир: " << setw(15) << r.passenger
-            << " | Дата: " << r.date.toString() << " |\n";
+            << " | пїЅпїЅпїЅпїЅпїЅ: " << setw(10) << r.destination
+            << " | пїЅпїЅпїЅпїЅ: " << setw(12) << r.flightNum
+            << " | пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << setw(15) << r.passenger
+            << " | пїЅпїЅпїЅпїЅ: " << r.date.toString() << " |\n";
     }
     cout << "     +" << setfill('-') << setw(98) << "-" << "+"
         << setfill(' ') << "\n";
@@ -23,175 +23,179 @@ void App::printList(const list<Request>& lst, const string& title) const {
 
 void App::doAddRequest() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для добавления");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     requests_.addRequest();
-    cout << "Добавлено\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doDeleteById() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для удаления");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (getRequests().empty()) throw exception("Список пуст");
+    if (getRequests().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
-    auto it = getRequests().begin();
-    advance(it, getRand(0, getRequests().size() - 1));
-    int id = it->id;
+    const auto& all = requests_.getList();
+    auto it = all.begin();
+    advance(it, getRand(0, static_cast<int>(all.size()) - 1));
+    int id = it->getId();
     requests_.deleteById(id);
-    cout << color(errColor) << "Удалена заявка ID: " << id << color(mainColor) << "\n";
+    cout << color(errColor) << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ID: " << id << color(mainColor) << "\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSelectByFlight() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для отбора");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (getRequests().empty()) throw exception("Список пуст");
+    if (getRequests().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
-    auto it = getRequests().begin();
-    advance(it, getRand(0, getRequests().size() - 1));
-    string flight = it->flightNum;
-    cout << "Отбор по рейсу: " << flight << "\n";
+    const auto& all = requests_.getList();
+    auto it = all.begin();
+    advance(it, getRand(0, static_cast<int>(all.size()) - 1));
+    string flight = it->getFlightNum();
+    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " << flight << "\n";
     auto res = requests_.selectByFlight(flight);
-    printList(res, "Отбор по рейсу");
+    printList(res, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSelectByDate() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для отбора");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (getRequests().empty()) throw exception("Список пуст");
+    if (getRequests().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
-    auto it = getRequests().begin();
-    advance(it, getRand(0, getRequests().size() - 1));
-    Date date = it->date;
-    cout << "Отбор по дате: " << date.toString() << "\n";
+    const auto& all = requests_.getList();
+    auto it = all.begin();
+    advance(it, getRand(0, static_cast<int>(all.size()) - 1));
+    Date date = it->getDate();
+    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ: " << date.toString() << "\n";
     auto res = requests_.selectByDate(date);
-    printList(res, "Отбор по дате");
+    printList(res, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ");
 }
 
 void App::doSelectByPassenger() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для отбора");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (getRequests().empty()) throw exception("Список пуст");
+    if (getRequests().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
-    auto it = getRequests().begin();
-    advance(it, getRand(0, getRequests().size() - 1));
-    string pass = it->passenger;
-    cout << "Отбор по пассажиру: " << pass << "\n";
+    const auto& all = requests_.getList();
+    auto it = all.begin();
+    advance(it, getRand(0, static_cast<int>(all.size()) - 1));
+    string pass = it->getPassenger();
+    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << pass << "\n";
     auto res = requests_.selectByPassenger(pass);
-    printList(res, "Отбор по пассажиру");
+    printList(res, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSortById() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для сортировки");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     requests_.sortById();
-    cout << "Сортировано по ID\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ID\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSortByDate() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для сортировки");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     requests_.sortByDate();
-    cout << "Сортировано по дате\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSortByDestination() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для сортировки");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     requests_.sortByDestination();
-    cout << "Сортировано по пункту\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doChangeRequest() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для изменения");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (getRequests().empty()) throw exception("Список пуст");
+    if (getRequests().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
     auto it = getRequests().begin();
     advance(it, getRand(0, getRequests().size() - 1));
     int id = it->id;
     requests_.changeRequest(id);
-    cout << "Изменено ID: " << id << "\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID: " << id << "\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSaveToBinaryFixed() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для сохранения");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     requests_.saveToBinaryFixed(binFile_);
-    cout << "Сохранено\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doLoadFromBinaryFixed() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для загрузки");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     requests_.loadFromBinaryFixed(binFile_);
-    cout << "Загружено\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSwapFirstLastInFile() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для swap first/last");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ swap first/last");
 
     requests_.swapFirstLastInFile(binFile_);
     cout << "First/last swapped\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSwapEarliestLatestInFile() {
     cls();
-    printList(getRequests(), "Текущий список");
-    getKey("\nНажмите для swap earliest/latest");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ swap earliest/latest");
 
     requests_.swapEarliestLatestInFile(binFile_);
     cout << "Earliest/latest swapped\n";
 
     cls();
-    printList(getRequests(), "Обновленный список");
+    printList(getRequests(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
