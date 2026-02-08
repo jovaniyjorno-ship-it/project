@@ -9,7 +9,7 @@ int main() {
 		app.run();
 	}
 	catch (const exception &ex) {
-		cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: " << ex.what() << "\n";
+		cout << "Îøèáêà: " << ex.what() << "\n";
 		return 1;
 	}
 

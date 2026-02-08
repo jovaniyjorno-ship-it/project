@@ -1,10 +1,10 @@
-// РЈС‚РёР»РёС‚С‹ Рё РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
+// Утилиты и вспомогательные функции
 #include "pch.h"
 #include "Utils.h"
 #include "Colors.h"
 #include "Palette.h"
 
-// Р’РЅСѓС‚СЂРµРЅРЅРёР№ РґРµСЃРєСЂРёРїС‚РѕСЂ РєРѕРЅСЃРѕР»Рё
+// Внутренний дескриптор консоли
 static HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void init(const wstring &title) {
@@ -19,7 +19,7 @@ void init(const wstring &title) {
 } // init
 
 
-// РџРѕР»СѓС‡РµРЅРёРµ РєРѕРґР° РЅР°Р¶Р°С‚РѕР№ РєР»Р°РІРёС€Рё
+// Получение кода нажатой клавиши
 int getKey(const string &message) {
 	cout << message;
 	int key = _getch();
@@ -29,49 +29,49 @@ int getKey(const string &message) {
 } // getKey
 
 
-// РЎР»СѓС‡Р°Р№РЅРѕРµ С†РµР»РѕРµ С‡РёСЃР»Рѕ РІ РґРёР°РїР°Р·РѕРЅРµ [low, high]
+// Случайное целое число в диапазоне [low, high]
 int getRand(int low, int high) {
 	return low + rand() % (high - low + 1);
 } // getRand
 
 
-// РЎР»СѓС‡Р°Р№РЅРѕРµ С‡РёСЃР»Рѕ (double) РІ РґРёР°РїР°Р·РѕРЅРµ [low, high]
+// Случайное число (double) в диапазоне [low, high]
 double getRand(double low, double high) {
 	return low + (high - low) * rand() / RAND_MAX;
 } // getRand
 
 
-// РЎР»СѓС‡Р°Р№РЅРѕРµ С‡РёСЃР»Рѕ (float) РІ РґРёР°РїР°Р·РѕРЅРµ [low, high]
+// Случайное число (float) в диапазоне [low, high]
 float getRand(float low, float high) {
 	return low + (high - low) * rand() / RAND_MAX;
 } // getRand
 
 
-// РЎР»СѓС‡Р°Р№РЅС‹Р№ СЃРёРјРІРѕР» РІ РґРёР°РїР°Р·РѕРЅРµ [low, high]
+// Случайный символ в диапазоне [low, high]
 char getRand(char low, char high) {
 	return (char)getRand((int)low, (int)high);
 } // getRand
 
 
-// РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С†РІРµС‚ С‚РµРєСЃС‚Р° РІ РєРѕРЅСЃРѕР»Рё
-// РСЃРїРѕР»СЊР·СѓРµС‚ РІРЅСѓС‚СЂРµРЅРЅРёР№ РґРµСЃРєСЂРёРїС‚РѕСЂ h
+// Установить цвет текста в консоли
+// Использует внутренний дескриптор h
 void setColor(short color) {
 	SetConsoleTextAttribute(h, color);
 } // setColor
 
 
-// Р’РІРѕРґ С†РµР»РѕРіРѕ С‡РёСЃР»Р° СЃ РїСЂРѕРІРµСЂРєРѕР№ С„РѕСЂРјР°С‚Р°
+// Ввод целого числа с проверкой формата
 int getInt() {
 	int value;
 	while(true) {
-		// РџСЂРѕСЃРёРј РІРІРµСЃС‚Рё С‡РёСЃР»Рѕ
+		// Просим ввести число
 		cout << "? ";
 		cin >> value;
 
-		// Р•СЃР»Рё РІРІРѕРґ РєРѕСЂСЂРµРєС‚РµРЅ вЂ” РІС‹С…РѕРґРёРј
+		// Если ввод корректен — выходим
 		if (!cin.fail()) break;
 
-		// РРЅР°С‡Рµ вЂ” РѕС‡РёС‰Р°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ Рё РїСЂРѕРїСѓСЃРєР°РµРј РѕСЃС‚Р°С‚РѕРє СЃС‚СЂРѕРєРё
+		// Иначе — очищаем состояние и пропускаем остаток строки
 		cin.clear();
 		cin.ignore(cin.rdbuf()->in_avail(), '\n');
 	} // while
@@ -80,27 +80,27 @@ int getInt() {
 } // getInt
 
 
-// РџСЂРѕРІРµСЂРєР° С„РѕСЂРјР°С‚Р° РІРІРѕРґР°
+// Проверка формата ввода
 void checkInputFormat(istream& is) {
-	// Р•СЃР»Рё РїРѕС‚РѕРє РІ РѕС€РёР±РѕС‡РЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
+	// Если поток в ошибочном состоянии
 	if (is.fail()) {
-		// РѕС‡РёС‰Р°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ Рё РїСЂРѕРїСѓСЃРєР°РµРј РѕСЃС‚Р°РІС€СѓСЋСЃСЏ С‡Р°СЃС‚СЊ СЃС‚СЂРѕРєРё
+		// очищаем состояние и пропускаем оставшуюся часть строки
 		is.clear();
 		is.ignore(is.rdbuf()->in_avail(), '\n');
 
-		// РІС‹Р±СЂР°СЃС‹РІР°РµРј РёСЃРєР»СЋС‡РµРЅРёРµ СЃ С‚РµРєСЃС‚РѕРј РЅР° СЂСѓСЃСЃРєРѕРј
-		throw exception("РћС€РёР±РєР° РІРІРѕРґР°");
+		// выбрасываем исключение с текстом на русском
+		throw exception("Ошибка ввода");
 	} // if	
 } // checkInputFormat
 
 
-// РџРѕРєР°Р·Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ РЅР°РІРёРіР°С†РёРѕРЅРЅРѕР№ СЃС‚СЂРѕРєРµ
+// Показать сообщение в навигационной строке
 void showNavBarMessage(short hintColor, const string &message) {
 	setColor(hintColor);
 
 	gotoXY(0, 0);
 
-	// РћС‚РѕР±СЂР°Р·РёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРµ РєРѕРЅСЃРѕР»Рё
+	// Отобразить сообщение в первой строке консоли
 	const COORD conSize = getConsoleSize();
 	cout << setw(conSize.X) << left << message << right;
 	setColor(mainColor);
@@ -109,15 +109,15 @@ void showNavBarMessage(short hintColor, const string &message) {
 } // showNavBarMessage
 
 
-// РџРѕРєР°Р·Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ РЅР°РІРёРіР°С†РёРѕРЅРЅРѕР№ СЃС‚СЂРѕРєРµ СЃ РїРѕРґСЃРІРµС‚РєРѕР№ С‡Р°СЃС‚Рё С‚РµРєСЃС‚Р°
-// Р§Р°СЃС‚СЊ С‚РµРєСЃС‚Р°, Р·Р°РєР»СЋС‡С‘РЅРЅР°СЏ РІ СЃРёРјРІРѕР»С‹ '~', Р±СѓРґРµС‚ РѕРєСЂР°С€РµРЅР° РІ acctColor
+// Показать сообщение в навигационной строке с подсветкой части текста
+// Часть текста, заключённая в символы '~', будет окрашена в acctColor
 void showNavBarMessage(short hintColor, short acctColor, const string &message) {
 	setColor(hintColor);
 	gotoXY(0, 0);
 
 	const COORD conSize = getConsoleSize();
 
-	// Р’С‹РІРѕРґ СЃ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊСЋ СЃРјРµРЅС‹ С†РІРµС‚Р° РІ РїСЂРµРґРµР»Р°С… РѕРґРЅРѕР№ СЃС‚СЂРѕРєРё
+	// Вывод с возможностью смены цвета в пределах одной строки
 	bool acctFlag = false;
 	int len = 0;
 	for (int i = 0; message[i] != 0; i++) {
@@ -131,7 +131,7 @@ void showNavBarMessage(short hintColor, short acctColor, const string &message) 
 		++len;
 	} // for i 
 
-	// Р—Р°РїРѕР»РЅРёС‚СЊ РѕСЃС‚Р°РІС€СѓСЋСЃСЏ С‡Р°СЃС‚СЊ СЃС‚СЂРѕРєРё РїСЂРѕР±РµР»Р°РјРё
+	// Заполнить оставшуюся часть строки пробелами
 	cout << setw(conSize.X - len - 1) << " ";
 	setColor(mainColor);
 
@@ -139,22 +139,22 @@ void showNavBarMessage(short hintColor, short acctColor, const string &message) 
 } // showNavBarMessage
 
 
-// РџРѕРєР°Р·Р°С‚СЊ СЌРєСЂР°РЅ "Р’ СЂР°Р·СЂР°Р±РѕС‚РєРµ"
+// Показать экран "В разработке"
 void showUnderConstruction(short width, short mainColor, short infoColor) {
 	ostringstream oss;
 	oss << "\n\n\n\n" << left
 		<< "\t" << setw(width) << " " << "\n"
-		<< "\t" << setw(width) << "    [Р’ СЂР°Р·СЂР°Р±РѕС‚РєРµ]" << "\n"
-		<< "\t" << setw(width) << "    Р Р°Р·РґРµР» РІ СЂР°Р·СЂР°Р±РѕС‚РєРµ" << "\n"
+		<< "\t" << setw(width) << "    [В разработке]" << "\n"
+		<< "\t" << setw(width) << "    Раздел в разработке" << "\n"
 		<< "\t" << setw(width) << " " << "\n"
-		<< "\t" << setw(width) << "    Р—РґРµСЃСЊ РїРѕРєР° РЅРµС‚ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ..." << "\n"
+		<< "\t" << setw(width) << "    Здесь пока нет содержимого для отображения..." << "\n"
 		<< "\t" << setw(width) << " " << "\n"
 		<< "\t" << setw(width) << " " << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" << right;
 	showMessage(oss.str(), infoColor, mainColor);
 } // showUnderConstruction
 
 
-// РџРѕРєР°Р·Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ
+// Показать сообщение
 void showMessage(const string &msg, short msgColor, short mainColor) {
 	setColor(msgColor);
 	cout << left << msg << right;
@@ -162,29 +162,29 @@ void showMessage(const string &msg, short msgColor, short mainColor) {
 } // showMessage
 
 
-// РџРѕРєР°Р·Р°С‚СЊ РїРѕР»Рµ РІРІРѕРґР°
-// Р’С‹РІРѕРґРёС‚ РїРѕРґСЃРєР°Р·РєСѓ `prompt`, СЂРёСЃСѓРµС‚ РїРѕР»Рµ С€РёСЂРёРЅРѕР№ `n` Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєСѓСЂСЃРѕСЂ РІРЅСѓС‚СЂРё
+// Показать поле ввода
+// Выводит подсказку `prompt`, рисует поле шириной `n` и устанавливает курсор внутри
 void showInputLine(const string &prompt, short n, short color) {
-	// Р’С‹РІРµСЃС‚Рё РїРѕРґСЃРєР°Р·РєСѓ
+	// Вывести подсказку
 	cout << prompt;               
     
 	COORD pos;
 	getXY(&pos);
 
-	// РћС‚СЂРёСЃРѕРІР°С‚СЊ РїРѕР»Рµ РІРІРѕРґР°
+	// Отрисовать поле ввода
 	setColor(color);              
 	cout << setw(n) << "  ";
 
-	// РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєСѓСЂСЃРѕСЂ РІРЅСѓС‚СЂРё РїРѕР»СЏ (СЃРјРµС‰РµРЅРёРµ +1)
+	// Установить курсор внутри поля (смещение +1)
 	gotoXY(pos.X + 1, pos.Y);
 } // showInputLine
 
 
 // ---------------------------------------------------------------------------------
 #pragma region WinAPI_helpers
-// РЈРїСЂР°РІР»РµРЅРёРµ РІРёРґРёРјРѕСЃС‚СЊСЋ РєСѓСЂСЃРѕСЂР°
-// mode: true  - РїРѕРєР°Р·Р°С‚СЊ РєСѓСЂСЃРѕСЂ
-//       false - СЃРєСЂС‹С‚СЊ РєСѓСЂСЃРѕСЂ
+// Управление видимостью курсора
+// mode: true  - показать курсор
+//       false - скрыть курсор
 void showCursor(bool mode) {
 	CONSOLE_CURSOR_INFO info;
 
@@ -195,7 +195,7 @@ void showCursor(bool mode) {
 } // void showCursor
 
 
-// РџСЂРѕРІРµСЂРёС‚СЊ РІРёРґРёРјРѕСЃС‚СЊ РєСѓСЂСЃРѕСЂР°: true - РІРёРґРёРј, false - СЃРєСЂС‹С‚
+// Проверить видимость курсора: true - видим, false - скрыт
 bool isCursor() {
 	CONSOLE_CURSOR_INFO info;
 
@@ -205,13 +205,13 @@ bool isCursor() {
 } // isCursor
 
 
-// РџРµСЂРµРјРµС‰Р°РµС‚ РєСѓСЂСЃРѕСЂ РІ РїРѕР·РёС†РёСЋ (x,y)
+// Перемещает курсор в позицию (x,y)
 void gotoXY(short x, short y) {
 	SetConsoleCursorPosition(h, COORD{ x, y });
 } // gotoXY
 
 
-// Р—Р°РїРёСЃР°С‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РєСѓСЂСЃРѕСЂР° РІ `position`
+// Записать текущую позицию курсора в `position`
 void getXY(COORD* position) {
 	CONSOLE_SCREEN_BUFFER_INFO cbuf;
 	GetConsoleScreenBufferInfo(h, &cbuf);
@@ -220,10 +220,10 @@ void getXY(COORD* position) {
 	position->Y = cbuf.dwCursorPosition.Y;
 } // getXY
 
-// TODO: СЂРµР°Р»РёР·РѕРІР°С‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СѓС‚РёР»РёС‚С‹ РїРѕ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё
+// TODO: реализовать дополнительные утилиты по необходимости
 
 
-// РћС‡РёСЃС‚РёС‚СЊ СЌРєСЂР°РЅ
+// Очистить экран
 void cls() {
 	COORD coordScreen = { 0, 0 };
 	DWORD cCharsWritten;
@@ -245,7 +245,7 @@ void cls() {
 } // cls
 
 
-// Р Р°Р·РјРµСЂ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ Р±СѓС„РµСЂР°
+// Размер консольного буфера
 COORD getConsoleSize() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(h, &csbi);
@@ -272,30 +272,30 @@ void printCp1251(const string& utf8) {
 
 
 #pragma region stream_manipulators
-// РџРѕС‚РѕРєРѕРІС‹Рµ РјР°РЅРёРїСѓР»СЏС‚РѕСЂС‹ Рё РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РѕРїРµСЂР°С‚РѕСЂС‹
+// Потоковые манипуляторы и вспомогательные операторы
 
-// РћС‡РёСЃС‚РєР° СЌРєСЂР°РЅР°: cout << cls;
+// Очистка экрана: cout << cls;
 ostream& cls(ostream& os) {
 	cls();
 	return os;
 } // cls
 
 
-// РћС‡РёСЃС‚РєР° СЌРєСЂР°РЅР° (РІРІРѕРґ): cin >> cls;
+// Очистка экрана (ввод): cin >> cls;
 istream& cls(istream& is) {
 	cls();
 	return is;
 } // cls
 
 
-// РўР°Р±СѓР»СЏС†РёСЏ: cout << tab;
+// Табуляция: cout << tab;
 ostream& tab(ostream& os) {
 	os << "\t";
 	return os;
 } // tab
 
 
-// Р’РєР»СЋС‡РёС‚СЊ РєСѓСЂСЃРѕСЂ РІ РїРѕС‚РѕРєРµ: cout << cursor
+// Включить курсор в потоке: cout << cursor
 ostream& cursor(ostream& os) {
 	CONSOLE_CURSOR_INFO info;
 	GetConsoleCursorInfo(h, &info);
@@ -307,7 +307,7 @@ ostream& cursor(ostream& os) {
 } // cursor
 
 
-// Р’РєР»СЋС‡РёС‚СЊ РєСѓСЂСЃРѕСЂ РґР»СЏ РІРІРѕРґР°: cin >> cursor
+// Включить курсор для ввода: cin >> cursor
 istream& cursor(istream& is) {
 	CONSOLE_CURSOR_INFO info;
 	GetConsoleCursorInfo(h, &info);
@@ -319,7 +319,7 @@ istream& cursor(istream& is) {
 } // cursor
 
 
-// РћС‚РєР»СЋС‡РёС‚СЊ РєСѓСЂСЃРѕСЂ: cout << nocursor
+// Отключить курсор: cout << nocursor
 ostream& nocursor(ostream& os) {
 	CONSOLE_CURSOR_INFO info;
 	GetConsoleCursorInfo(h, &info);
@@ -331,7 +331,7 @@ ostream& nocursor(ostream& os) {
 } // nocursor
 
 
-// РћС‚РєР»СЋС‡РёС‚СЊ РєСѓСЂСЃРѕСЂ РґР»СЏ РІРІРѕРґР°: cin >> nocursor
+// Отключить курсор для ввода: cin >> nocursor
 istream& nocursor(istream& is) {
 	CONSOLE_CURSOR_INFO info;
 	GetConsoleCursorInfo(h, &info);
@@ -343,7 +343,7 @@ istream& nocursor(istream& is) {
 } // nocursor
 
 
-// РџРµС‡Р°С‚СЊ РЅРµСЃРєРѕР»СЊРєРёС… РїРµСЂРµРІРѕРґРѕРІ СЃС‚СЂРѕРєРё: cout << endlm(n)
+// Печать нескольких переводов строки: cout << endlm(n)
 ostream& operator<<(ostream& os, const endlm& obj) {
 	for (int i = 0; i < obj.n_; ++i) {
 		os << "\n";
@@ -352,27 +352,27 @@ ostream& operator<<(ostream& os, const endlm& obj) {
 } // operator<<
 
 
-// РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С†РІРµС‚ РІ РїРѕС‚РѕРєРµ: cout << color(c)
+// Установить цвет в потоке: cout << color(c)
 ostream& operator<<(ostream& os, const color& obj) {
 	SetConsoleTextAttribute(h, obj.color_);
 	return os;
 } // operator<<
 
 
-// РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С†РІРµС‚ РёР· РїРѕС‚РѕРєР°: cin >> color(c)
+// Установить цвет из потока: cin >> color(c)
 istream& operator>>(istream& is, const color& obj) {
 	SetConsoleTextAttribute(h, obj.color_);
 	return is;
 } // operator>>
 
 
-// РџРµСЂРµРјРµСЃС‚РёС‚СЊ РєСѓСЂСЃРѕСЂ С‡РµСЂРµР· РїРѕС‚РѕРє: cout << pos(x,y)
+// Переместить курсор через поток: cout << pos(x,y)
 ostream& operator<<(ostream& os, const pos& obj) {
 	SetConsoleCursorPosition(h, { obj.x_, obj.y_ });
 	return os;
 } // operator<<
 
-// РџРµСЂРµРјРµСЃС‚РёС‚СЊ РєСѓСЂСЃРѕСЂ С‡РµСЂРµР· РІРІРѕРґ: cin >> pos(x,y)
+// Переместить курсор через ввод: cin >> pos(x,y)
 istream& operator>>(istream& is, const pos& obj) {
 	SetConsoleCursorPosition(h, { obj.x_, obj.y_ });
 	return is;
@@ -380,7 +380,7 @@ istream& operator>>(istream& is, const pos& obj) {
 #pragma endregion
 
 
-// РўРµРєСѓС‰РёР№ РіРѕРґ
+// Текущий год
 int getCurrentYear() {
 	time_t t = time(nullptr);
 	struct tm tm = *localtime(&t);

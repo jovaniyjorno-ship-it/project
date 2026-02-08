@@ -1,23 +1,23 @@
 #include "pch.h"
 #include "Date.h"
 
-// РЈСЃС‚Р°РЅРѕРІРєР° РґР°С‚С‹ СЃ РїСЂРѕРІРµСЂРєРѕР№ РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚Рё
+// Установка даты с проверкой корректности
 void Date::setDate(short day, short month, short year) {
-    // РџСЂРѕРІРµСЂСЏРµРј РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РґР°С‚С‹
+    // Проверяем корректность даты
     char buf[1024];
     if (!dateValid(day, month, year)) {
-        sprintf(buf, "%02d/%02d/%04d - РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ РґР°С‚Р°", day, month, year);
+        sprintf(buf, "%02d/%02d/%04d - некорректная дата", day, month, year);
         throw exception(buf);
     } // if
 
-    // РЎРѕС…СЂР°РЅСЏРµРј Р·РЅР°С‡РµРЅРёСЏ
+    // Сохраняем значения
     day_ = day;
     month_ = month;
     year_ = year;
 } // Date::setDate
 
 
-// РџСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ РґР°С‚Сѓ РІ СЃС‚СЂРѕРєРѕРІС‹Р№ С„РѕСЂРјР°С‚ DD.MM.YYYY
+// Преобразовать дату в строковый формат DD.MM.YYYY
 string Date::toString() const {
     ostringstream oss;
     oss << setw(2) << setfill('0') << day_ << "."

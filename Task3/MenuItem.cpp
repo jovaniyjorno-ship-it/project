@@ -1,17 +1,17 @@
 #include "pch.h"
 #include "MenuItem.h"
-// РїСѓРЅРєС‚ РјРµРЅСЋ
+// пункт меню
 
-// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂ
+// конструкторы и деструктор
 
-MenuItem::MenuItem() :MenuItem(1, "РўРµРєСЃС‚ РїСѓРЅРєС‚Р° РјРµРЅСЋ"s) {}
+MenuItem::MenuItem() :MenuItem(1, "Текст пункта меню"s) {}
 
 MenuItem::MenuItem(int command, const string &text):
 	command_(command), text_(text), selected_(false)
 {
 } // MenuItem::MenuItem
 
-// Р°РєСЃРµСЃСЃРѕСЂС‹
+// аксессоры
 int MenuItem::command() const { return command_; }
 const string &MenuItem::text() const { return text_; }
 

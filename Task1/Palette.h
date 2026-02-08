@@ -1,16 +1,16 @@
 #pragma once
 #include "Colors.h"
 
-// РџР°Р»РёС‚СЂР° С†РІРµС‚РѕРІ - РЅР°Р±РѕСЂ РєРѕРЅСЃС‚Р°РЅС‚ РґР»СЏ С†РІРµС‚РѕРІРѕР№ СЃС…РµРјС‹ РёРЅС‚РµСЂС„РµР№СЃР°
+// Палитра цветов - набор констант для цветовой схемы интерфейса
 enum Palette: int {
-    mainColor = GRAY_ON_BLACK,     // РѕСЃРЅРѕРІРЅРѕР№ С†РІРµС‚ РёРЅС‚РµСЂС„РµР№СЃР°
-    infoColor = BLACK_ON_LTCYAN,   // С†РІРµС‚ РёРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹С… СЃС‚СЂРѕРє
-    acctColor = RED_ON_WHITE,      // С†РІРµС‚ Р°РєС†РµРЅС‚РѕРІ/РІС‹РґРµР»РµРЅРёСЏ
-    hintColor = BLACK_ON_WHITE,    // С†РІРµС‚ РїРѕРґСЃРєР°Р·РѕРє/С…РёРЅС‚РѕРІ
-    sumColor  = BLUE_ON_WHITE,     // С†РІРµС‚ СЃСѓРјРј/РёС‚РѕРіРѕРІ
-    errColor  = WHITE_ON_RED,      // С†РІРµС‚ РѕС€РёР±РѕРє
-    resColor  = LTCYAN_ON_BLACK,   // С†РІРµС‚ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ/РїРѕРґСЃРІРµС‚РєРё
-    arrColor  = LTCYAN_ON_BLACK,   // С†РІРµС‚ РјР°СЃСЃРёРІРѕРІ/С‚Р°Р±Р»РёС†
-    headerColor = WHITE_ON_BLACK   // С†РІРµС‚ Р·Р°РіРѕР»РѕРІРєРѕРІ
+    mainColor = GRAY_ON_BLACK,     // основной цвет интерфейса
+    infoColor = BLACK_ON_LTCYAN,   // цвет информационных строк
+    acctColor = RED_ON_WHITE,      // цвет акцентов/выделения
+    hintColor = BLACK_ON_WHITE,    // цвет подсказок/хинтов
+    sumColor  = BLUE_ON_WHITE,     // цвет сумм/итогов
+    errColor  = WHITE_ON_RED,      // цвет ошибок
+    resColor  = LTCYAN_ON_BLACK,   // цвет результатов/подсветки
+    arrColor  = LTCYAN_ON_BLACK,   // цвет массивов/таблиц
+    headerColor = WHITE_ON_BLACK   // цвет заголовков
 
 };

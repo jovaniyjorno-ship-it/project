@@ -1,53 +1,53 @@
 #pragma once
 #include "Palette.h"
 
-// РЈС‚РёР»РёС‚С‹ Рё РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
+// Утилиты и вспомогательные функции
 
-// РЁРёСЂРёРЅР° РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё СЌР»РµРјРµРЅС‚РѕРІ РёРЅС‚РµСЂС„РµР№СЃР°
+// Ширина для отрисовки элементов интерфейса
 const int W = 84;
 
-// РљРѕРЅСЃС‚Р°РЅС‚Р° СЃРєРѕСЂРѕСЃС‚Рё (РїСЂРёРј., РѕСЃС‚Р°РІР»РµРЅР° РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё)
-// РСЃС‚РѕС‡РЅРёРє: https://www.asutpp.ru/skorost-sveta.html
+// Константа скорости (прим., оставлена для совместимости)
+// Источник: https://www.asutpp.ru/skorost-sveta.html
 const double C = 1'080'000'000;
 
 
-// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ (Р·Р°РіРѕР»РѕРІРѕРє РєРѕРЅСЃРѕР»Рё)
-void init(const wstring &title = L"РљРѕРЅСЃРѕР»СЊРЅРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ");
+// Инициализация приложения (заголовок консоли)
+void init(const wstring &title = L"Консольное приложение");
 
-// РџРѕР»СѓС‡РµРЅРёРµ РєРѕРґР° РєР»Р°РІРёС€Рё (СЃ РїРѕРґСЃРєР°Р·РєРѕР№)
-int getKey(const string &message = "\t    РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...");
+// Получение кода клавиши (с подсказкой)
+int getKey(const string &message = "\t    Нажмите любую клавишу для продолжения...");
 
-// РЎР»СѓС‡Р°Р№РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
+// Случайные значения
 int    getRand(int    low, int    high);
 double getRand(double low, double high);
 float  getRand(float  low, float  high);
 char   getRand(char   low, char   high);
 
-// РЈРїСЂР°РІР»РµРЅРёРµ С†РІРµС‚РѕРј С‚РµРєСЃС‚Р°
+// Управление цветом текста
 void setColor(short color);
 
-// Р’РІРѕРґ С†РµР»РѕРіРѕ С‡РёСЃР»Р° СЃ РїСЂРѕРІРµСЂРєРѕР№
+// Ввод целого числа с проверкой
 int getInt();
 
-// Р’С‹РІРѕРґ РІ РЅР°РІРёРіР°С†РёРѕРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ
+// Вывод в навигационную строку
 void showNavBarMessage(short hintColor, const string &message);
 void showNavBarMessage(short hintColor, short acctColor, const string &message);
 
-// Р­РєСЂР°РЅ "Р’ СЂР°Р·СЂР°Р±РѕС‚РєРµ"
+// Экран "В разработке"
 void showUnderConstruction(short width, short mainColor, short infoColor);
 
-// РџРѕРєР°Р·Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ РѕСЃРЅРѕРІРЅРѕР№ РѕР±Р»Р°СЃС‚Рё
+// Показать сообщение в основной области
 void showMessage(const string &msg, short msgColor, short mainColor);
 
-// РћС‚СЂРёСЃРѕРІР°С‚СЊ РїРѕР»Рµ РІРІРѕРґР°
-void showInputLine(const string &prompt = "Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ:", short n = 19, short color = infoColor);
+// Отрисовать поле ввода
+void showInputLine(const string &prompt = "Введите число:", short n = 19, short color = infoColor);
 
-// РџСЂРѕРІРµСЂРєР° С„РѕСЂРјР°С‚Р° РІРІРѕРґР°
+// Проверка формата ввода
 void checkInputFormat(istream& is);
 
 // ---------------------------------------------------------------------------------
 #pragma region WinAPI_helpers
-// Р Р°Р±РѕС‚Р° СЃ WinAPI Рё РєРѕРЅСЃРѕР»СЊСЋ
+// Работа с WinAPI и консолью
 
 COORD getConsoleSize();
 
@@ -61,31 +61,31 @@ void getXY(COORD* position);
 void cls();
 #include <Windows.h>
 
-// РџРµС‡Р°С‚СЊ UTF-8 СЃС‚СЂРѕРєРё РІ CP1251-РєРѕРЅСЃРѕР»СЊ
+// Печать UTF-8 строки в CP1251-консоль
 void printCp1251(const string& utf8);
 #pragma endregion
 
 
 #pragma region stream_manipulators
-// РџРѕС‚РѕРєРѕРІС‹Рµ РјР°РЅРёРїСѓР»СЏС‚РѕСЂС‹ Рё РєР»Р°СЃСЃС‹-СѓС‚РёР»РёС‚С‹
+// Потоковые манипуляторы и классы-утилиты
 
-// РћС‡РёСЃС‚РєР° СЌРєСЂР°РЅР°: cout << cls;
+// Очистка экрана: cout << cls;
 ostream& cls(ostream& os);
 // cin >> cls;
 istream& cls(istream& is);
 
-// РўР°Р±СѓР»СЏС†РёСЏ: cout << tab;
+// Табуляция: cout << tab;
 ostream& tab(ostream& os);
 
-// Р’РєР»СЋС‡РёС‚СЊ РєСѓСЂСЃРѕСЂ: cout << cursor
+// Включить курсор: cout << cursor
 ostream& cursor(ostream& os);
 istream& cursor(istream& is);
 
-// РћС‚РєР»СЋС‡РёС‚СЊ РєСѓСЂСЃРѕСЂ: cout << nocursor
+// Отключить курсор: cout << nocursor
 ostream& nocursor(ostream& os);
 istream& nocursor(istream& is);
 
-// РџРµС‡Р°С‚СЊ РЅРµСЃРєРѕР»СЊРєРёС… РїРµСЂРµРІРѕРґРѕРІ СЃС‚СЂРѕРєРё: cout << endlm(n)
+// Печать нескольких переводов строки: cout << endlm(n)
 class endlm
 {
 	int n_;
@@ -96,7 +96,7 @@ public:
 	friend ostream& operator<<(ostream& os, const endlm& obj);
 };
 
-// РљР»Р°СЃСЃ-РјР°РЅРёРїСѓР»СЏС‚РѕСЂ С†РІРµС‚Р°
+// Класс-манипулятор цвета
 class color
 {
 	short color_;
@@ -108,7 +108,7 @@ public:
 	friend istream& operator>>(istream& is, const color& obj);
 };
 
-// РљР»Р°СЃСЃ-РїРѕР·РёС†РёСЏ РєСѓСЂСЃРѕСЂР°
+// Класс-позиция курсора
 class pos
 {
 	short x_;
@@ -124,7 +124,7 @@ public:
 #pragma endregion
 
 
-// РЎСЂР°РІРЅРµРЅРёРµ СЃ РїРѕРіСЂРµС€РЅРѕСЃС‚СЊСЋ
+// Сравнение с погрешностью
 inline bool eq(double d1, double d2) { return abs(d1 - d2) <= 1e-6; }
 inline bool eq(float d1, float d2) { return abs(d1 - d2) <= 1e-6; }
 

@@ -9,7 +9,7 @@ struct Request : public Object {
     char passenger[31];
     Date date;
 
-    static Request createFactory(int id);  // С„Р°Р±СЂРёС‡РЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ/РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
+    static Request createFactory(int id);  // фабричный метод для создания/инициализации
 
     // Binary (fixed-size) serialization helpers
     void writeBinary(ostream& os) const;

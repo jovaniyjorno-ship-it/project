@@ -1,16 +1,16 @@
 #pragma once
 #include "Colors.h"
 
-// РћРїРёСЃР°РЅРёРµ РїР°Р»РёС‚СЂС‹: СЃРјС‹СЃР»РѕРІС‹Рµ РЅР°Р·РІР°РЅРёСЏ С†РІРµС‚РѕРІ
+// Описание палитры: смысловые названия цветов
 enum Palette: int {
-    mainColor = GRAY_ON_BLACK,     // РћСЃРЅРѕРІРЅРѕР№ С‚РµРєСЃС‚
-    infoColor = BLACK_ON_LTCYAN,   // РРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ
-    acctColor = RED_ON_WHITE,      // РђРєС†РµРЅС‚/РѕС€РёР±РєР°
-    hintColor = BLACK_ON_WHITE,    // РџРѕРґСЃРєР°Р·РєРё
-    sumColor  = BLUE_ON_WHITE,     // РЎСѓРјРјС‹
-    errColor  = WHITE_ON_RED,      // РћС€РёР±РєРё
-    resColor  = LTCYAN_ON_BLACK,   // Р РµР·СѓР»СЊС‚Р°С‚С‹
-    arrColor  = LTCYAN_ON_BLACK,   // РўР°Р±Р»РёС‡РЅС‹Рµ СЌР»РµРјРµРЅС‚С‹
-    headerColor = WHITE_ON_BLACK   // Р—Р°РіРѕР»РѕРІРєРё
+    mainColor = GRAY_ON_BLACK,     // Основной текст
+    infoColor = BLACK_ON_LTCYAN,   // Информационные сообщения
+    acctColor = RED_ON_WHITE,      // Акцент/ошибка
+    hintColor = BLACK_ON_WHITE,    // Подсказки
+    sumColor  = BLUE_ON_WHITE,     // Суммы
+    errColor  = WHITE_ON_RED,      // Ошибки
+    resColor  = LTCYAN_ON_BLACK,   // Результаты
+    arrColor  = LTCYAN_ON_BLACK,   // Табличные элементы
+    headerColor = WHITE_ON_BLACK   // Заголовки
 
 };
