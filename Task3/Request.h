@@ -9,7 +9,12 @@ struct Request : public Object {
     char passenger[31];
     Date date;
 
-    static Request createFactory(int id);  // фабрика для создания/изменения
+    static Request createFactory(int id);  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+
+    // Binary (fixed-size) serialization helpers
+    void writeBinary(ostream& os) const;
+    static bool readBinary(istream& is, Request& out);
+    static size_t binarySize() { return sizeof(int) + 31 + 16 + 31 + 3 * sizeof(short); }
 
     int getId() const { return id; }
     string getDestination() const { return string(destination); }

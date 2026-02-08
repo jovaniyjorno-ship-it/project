@@ -14,8 +14,7 @@ void Requests::addRequest() {
 }
 
 void Requests::deleteById(int id) {
-    auto it = remove_if(list_.begin(), list_.end(), [id](const Request& r) { return r.getId() == id; });
-    list_.erase(it, list_.end());
+    list_.remove_if([id](const Request& r) { return r.getId() == id; });
 }
 
 list<Request> Requests::selectByFlight(const string& flight) {
@@ -62,25 +61,25 @@ void Requests::changeRequest(int id) {
             return;
         }
     }
-    throw exception("Заявка не найдена");
+    throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void Requests::saveToBinaryFixed(const string& fname) const {
     ofstream out(fname, ios::binary | ios::trunc);
-    if (!out.is_open()) throw exception(("Ошибка записи в " + fname).c_str());
+    if (!out.is_open()) throw exception(("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ " + fname).c_str());
 
     for (const auto& r : list_) {
-        out.write(reinterpret_cast<const char*>(&r), sizeof(Request));
+        r.writeBinary(out);
     }
 }
 
 void Requests::loadFromBinaryFixed(const string& fname) {
     ifstream in(fname, ios::binary);
-    if (!in.is_open()) throw exception(("Ошибка открытия " + fname).c_str());
+    if (!in.is_open()) throw exception(("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ " + fname).c_str());
 
     list_.clear();
     Request r;
-    while (in.read(reinterpret_cast<char*>(&r), sizeof(Request))) {
+    while (Request::readBinary(in, r)) {
         list_.push_back(r);
         nextId_ = max(nextId_, r.getId() + 1);
     }
@@ -88,35 +87,40 @@ void Requests::loadFromBinaryFixed(const string& fname) {
 
 void Requests::swapFirstLastInFile(const string& fname) {
     fstream f(fname, ios::binary | ios::in | ios::out);
-    if (!f.is_open()) throw exception(("Ошибка открытия " + fname).c_str());
+    if (!f.is_open()) throw exception(("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ " + fname).c_str());
 
     f.seekg(0, ios::end);
-    size_t fileSize = f.tellg();
-    size_t recSize = sizeof(Request);
-    if (fileSize < 2 * recSize) throw exception("Мало записей в файле");
+    size_t fileSize = static_cast<size_t>(f.tellg());
+    size_t recSize = Request::binarySize();
+    if (fileSize < 2 * recSize) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ");
 
-    Request first, last;
+    // read first
     f.seekg(0);
-    f.read(reinterpret_cast<char*>(&first), recSize);
+    Request first;
+    if (!Request::readBinary(f, first)) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    f.seekg(-static_cast<int>(recSize), ios::end);
-    f.read(reinterpret_cast<char*>(&last), recSize);
+    // read last
+    f.seekg(static_cast<streamoff>(fileSize - recSize));
+    Request last;
+    if (!Request::readBinary(f, last)) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
+    // write last to first position
     f.seekp(0);
-    f.write(reinterpret_cast<const char*>(&last), recSize);
+    last.writeBinary(f);
 
-    f.seekp(-static_cast<int>(recSize), ios::end);
-    f.write(reinterpret_cast<const char*>(&first), recSize);
+    // write first to last position
+    f.seekp(static_cast<streamoff>(fileSize - recSize));
+    first.writeBinary(f);
 }
 
 void Requests::swapEarliestLatestInFile(const string& fname) {
     fstream f(fname, ios::binary | ios::in | ios::out);
-    if (!f.is_open()) throw exception(("Ошибка открытия " + fname).c_str());
+    if (!f.is_open()) throw exception(("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ " + fname).c_str());
 
     f.seekg(0, ios::end);
-    size_t fileSize = f.tellg();
-    size_t recSize = sizeof(Request);
-    if (fileSize < 2 * recSize) throw exception("Мало записей в файле");
+    size_t fileSize = static_cast<size_t>(f.tellg());
+    size_t recSize = Request::binarySize();
+    if (fileSize < 2 * recSize) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ");
 
     size_t numRecs = fileSize / recSize;
     Date minDate; minDate.setDate(31, 12, 9999);
@@ -124,25 +128,26 @@ void Requests::swapEarliestLatestInFile(const string& fname) {
     size_t minPos = 0, maxPos = 0;
 
     for (size_t pos = 0; pos < numRecs; ++pos) {
-        f.seekg(pos * recSize + offsetof(Request, date));
-        Date d;
-        f.read(reinterpret_cast<char*>(&d), sizeof(Date));
+        f.seekg(static_cast<streamoff>(pos * recSize));
+        Request tmp;
+        if (!Request::readBinary(f, tmp)) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+        Date d = tmp.getDate();
         if (d < minDate) { minDate = d; minPos = pos; }
         if (maxDate < d) { maxDate = d; maxPos = pos; }
     }
 
-    if (minPos == maxPos) throw exception("Нет разных дат для swap");
+    if (minPos == maxPos) throw exception("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ swap");
 
     Request minR, maxR;
-    f.seekg(minPos * recSize);
-    f.read(reinterpret_cast<char*>(&minR), recSize);
+    f.seekg(static_cast<streamoff>(minPos * recSize));
+    if (!Request::readBinary(f, minR)) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    f.seekg(maxPos * recSize);
-    f.read(reinterpret_cast<char*>(&maxR), recSize);
+    f.seekg(static_cast<streamoff>(maxPos * recSize));
+    if (!Request::readBinary(f, maxR)) throw exception("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    f.seekp(minPos * recSize);
-    f.write(reinterpret_cast<const char*>(&maxR), recSize);
+    f.seekp(static_cast<streamoff>(minPos * recSize));
+    maxR.writeBinary(f);
 
-    f.seekp(maxPos * recSize);
-    f.write(reinterpret_cast<const char*>(&minR), recSize);
+    f.seekp(static_cast<streamoff>(maxPos * recSize));
+    minR.writeBinary(f);
 }

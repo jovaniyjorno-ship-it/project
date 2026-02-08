@@ -3,34 +3,32 @@
 #include <locale>
 #include <cctype>
 
-// Сформировать частотный словарь слов
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 map<string, double> TextProcessor::makeWordsFrequencyDict(const string& fileName) {
     map<string, double> freqDict;
 
     fstream fs(fileName, ios::in);
     if (!fs.is_open()) {
-        throw exception(("TextProcessor: Ошибка открытия файла " + fileName + " для чтения").c_str());
+        throw exception(("TextProcessor: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " + fileName + " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ").c_str());
     }
     fs.imbue(locale(".1251"));
 
     int wordsCounter = 0;
-    while (!fs.eof()) {
-        string line;
-        getline(fs, line);
+    string line;
+    while (getline(fs, line)) {
         if (line.empty()) continue;
 
         vector<string> words = splitBySpace(line);
         for (const auto& word : words) {
-            freqDict[word] += 1;
+            freqDict[word] += 1.0;
         }
-        wordsCounter += words.size();
-
-        fs.peek();
+        wordsCounter += static_cast<int>(words.size());
     }
     fs.close();
-
-    for (auto& item : freqDict) {
-        item.second /= wordsCounter;
+    if (wordsCounter > 0) {
+        for (auto& item : freqDict) {
+            item.second /= wordsCounter;
+        }
     }
     return freqDict;
 }
@@ -40,7 +38,7 @@ map<string, double> TextProcessor::makeLettersFrequencyDict(const string& fileNa
 
     fstream fs(fileName, ios::in);
     if (!fs.is_open()) {
-        throw exception(("TextProcessor: Ошибка открытия файла " + fileName + " для чтения").c_str());
+        throw exception(("TextProcessor: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " + fileName + " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ").c_str());
     }
     fs.imbue(locale(".1251"));
 
@@ -60,8 +58,10 @@ map<string, double> TextProcessor::makeLettersFrequencyDict(const string& fileNa
         }
     }
 
-    for (auto& item : freqDict) {
-        item.second /= lettersCounter;
+    if (lettersCounter > 0) {
+        for (auto& item : freqDict) {
+            item.second /= lettersCounter;
+        }
     }
     return freqDict;
 }
@@ -70,11 +70,9 @@ map<string, double> TextProcessor::makeLettersFrequencyDict(const string& fileNa
 vector<string> TextProcessor::splitBySpace(const string& line) {
     vector<string> words;
     stringstream ss(line);
-    while (!ss.fail()) {
-        string word;
-        ss >> word;
-        if (word.empty()) continue;
-        words.emplace_back(word);
+    string word;
+    while (ss >> word) {
+        if (!word.empty()) words.emplace_back(word);
     }
     return words;
 }
