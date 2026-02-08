@@ -12,10 +12,10 @@ void App::printList(const list<Request>& lst, const string& title) const {
     for (const auto& r : lst) {
         cout << " " << setfill('0') << setw(3) << row++ << setfill(' ')
             << " | ID: " << setw(4) << r.id
-            << " | �����: " << setw(10) << r.destination
-            << " | ����: " << setw(12) << r.flightNum
-            << " | ��������: " << setw(15) << r.passenger
-            << " | ����: " << r.date.toString() << " |\n";
+            << " | Пункт назначения: " << setw(10) << r.destination
+            << " | Рейс: " << setw(12) << r.flightNum
+            << " | Пассажир: " << setw(15) << r.passenger
+            << " | Дата: " << r.date.toString() << " |\n";
     }
     cout << "     +" << setfill('-') << setw(98) << "-" << "+"
         << setfill(' ') << "\n";
@@ -23,182 +23,182 @@ void App::printList(const list<Request>& lst, const string& title) const {
 
 void App::doAddRequest() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.addRequest();
-    cout << "���������\n";
+    cout << "Добавлено\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doDeleteById() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ��������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
-    if (getRequests().empty()) throw exception("������ ����");
+    if (getRequests().empty()) throw exception("Список пуст");
 
     const auto& all = requests_.getList();
     auto it = all.begin();
     advance(it, getRand(0, static_cast<int>(all.size()) - 1));
     int id = it->getId();
     requests_.deleteById(id);
-    cout << color(errColor) << "������� ������ ID: " << id << color(mainColor) << "\n";
+    cout << color(errColor) << "Удалена заявка ID: " << id << color(mainColor) << "\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doSelectByFlight() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
-    if (getRequests().empty()) throw exception("������ ����");
+    if (getRequests().empty()) throw exception("Список пуст");
 
     const auto& all = requests_.getList();
     auto it = all.begin();
     advance(it, getRand(0, static_cast<int>(all.size()) - 1));
     string flight = it->getFlightNum();
-    cout << "����� �� �����: " << flight << "\n";
+    cout << "Рейс: " << flight << "\n";
     auto res = requests_.selectByFlight(flight);
-    printList(res, "����� �� �����");
-    getKey("\n������� ��� �����������...");
+    printList(res, "Заявки по рейсу");
+    getKey("\nНажмите любую клавишу для продолжения...");
 }
 
 void App::doSelectByDate() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
-    if (getRequests().empty()) throw exception("������ ����");
+    if (getRequests().empty()) throw exception("Список пуст");
 
     const auto& all = requests_.getList();
     auto it = all.begin();
     advance(it, getRand(0, static_cast<int>(all.size()) - 1));
     Date date = it->getDate();
-    cout << "����� �� ����: " << date.toString() << "\n";
+    cout << "Дата: " << date.toString() << "\n";
     auto res = requests_.selectByDate(date);
-    printList(res, "����� �� ����");
-    getKey("\n������� ��� �����������...");
+    printList(res, "Заявки по дате");
+    getKey("\nНажмите любую клавишу для продолжения...");
 }
 
 void App::doSelectByPassenger() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
-    if (getRequests().empty()) throw exception("������ ����");
+    if (getRequests().empty()) throw exception("Список пуст");
 
     const auto& all = requests_.getList();
     auto it = all.begin();
     advance(it, getRand(0, static_cast<int>(all.size()) - 1));
     string pass = it->getPassenger();
-    cout << "����� �� ���������: " << pass << "\n";
+    cout << "Пассажир: " << pass << "\n";
     auto res = requests_.selectByPassenger(pass);
-    printList(res, "����� �� ���������");
-    getKey("\n������� ��� �����������...");
+    printList(res, "Заявки по пассажиру");
+    getKey("\nНажмите любую клавишу для продолжения...");
 }
 
 void App::doSortById() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.sortById();
-    cout << "����������� �� ID\n";
+    cout << "Отсортировано по ID\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doSortByDate() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.sortByDate();
-    cout << "����������� �� ����\n";
+    cout << "Отсортировано по дате\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doSortByDestination() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.sortByDestination();
-    cout << "����������� �� ������\n";
+    cout << "Отсортировано по пункту назначения\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doChangeRequest() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ���������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
-    if (getRequests().empty()) throw exception("������ ����");
+    if (getRequests().empty()) throw exception("Список пуст");
 
     auto it = getRequests().begin();
     advance(it, getRand(0, getRequests().size() - 1));
     int id = it->id;
     requests_.changeRequest(id);
-    cout << "�������� ID: " << id << "\n";
+    cout << "Изменена заявка ID: " << id << "\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doSaveToBinaryFixed() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.saveToBinaryFixed(binFile_);
-    cout << "���������\n";
+    cout << "Сохранено\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doLoadFromBinaryFixed() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� ��������");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.loadFromBinaryFixed(binFile_);
-    cout << "���������\n";
+    cout << "Загружено\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doSwapFirstLastInFile() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� swap first/last");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.swapFirstLastInFile(binFile_);
-    cout << "First/last swapped\n";
+    cout << "Первая/последняя запись поменяны местами\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }
 
 void App::doSwapEarliestLatestInFile() {
     cls();
-    printList(getRequests(), "������� ������");
-    getKey("\n������� ��� swap earliest/latest");
+    printList(getRequests(), "Список заявок");
+    getKey("\nНажмите любую клавишу для продолжения...");
 
     requests_.swapEarliestLatestInFile(binFile_);
-    cout << "Earliest/latest swapped\n";
+    cout << "Самые ранние/поздние записи поменяны местами\n";
 
     cls();
-    printList(getRequests(), "����������� ������");
+    printList(getRequests(), "Текущий список заявок");
 }

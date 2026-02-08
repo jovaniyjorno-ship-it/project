@@ -1,23 +1,23 @@
 #include "pch.h"
 #include "Date.h"
 
-// ������ ��� ����
+// Проверка и установка даты
 void Date::setDate(short day, short month, short year) {
-    // ���� ��������� �� �������� ���������� ���� - ����������� ����������
+    // Проверяем параметры даты и выбрасываем исключение при ошибке
     char buf[1024];
     if (!dateValid(day, month, year)) {
-        sprintf(buf, "%02d/%02d/%04d - ������������ ����", day, month, year);
+        sprintf(buf, "%02d/%02d/%04d - Некорректная дата", day, month, year);
         throw exception(buf);
     } // if
 
-    // ���������� ������ - ��������� ����� ��������
+    // Сохраняем значения
     day_ = day;
     month_ = month;
     year_ = year;
 } // Date::setDate
 
 
-// ����� ���� � ������
+// Формат вывода даты
 string Date::toString() const {
     ostringstream oss;
     oss << setw(2) << setfill('0') << day_ << "."

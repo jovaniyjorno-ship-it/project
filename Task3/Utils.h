@@ -13,10 +13,10 @@ const double C = 1'080'000'000;
 
 
 // ��������� ���������� ������� � ������ ����������
-void init(const wstring &title = L"��������� ����������");
+void init(const wstring &title = L"Консольное приложение");
 
 // ��������� ���� ������� �������
-int getKey(const string &message = "\t    ������� ����� ������� ��� �����������...");
+int getKey(const string &message = "\t    Нажмите любую клавишу для продолжения...");
 
 // ��������� ���������� �����
 int    getRand(int    low, int    high);
@@ -42,7 +42,7 @@ void showMessage(const string &msg, short msgColor, short mainColor);
 
 // ����� ����������� �� �����, ������������� ������ �����, ���� �������������
 // � �������� color
-void showInputLine(const string &prompt = "������� �����:", short n = 19, short color = infoColor);
+void showInputLine(const string &prompt = "Введите число:", short n = 19, short color = infoColor);
 
 // �������� ������� �����
 void checkInputFormat(istream& is);
