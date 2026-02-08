@@ -1,53 +1,53 @@
 #pragma once
 #include "Palette.h"
 
-// Утилиты и вспомогательные функции
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-// Ширина для отрисовки элементов интерфейса
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 const int W = 84;
 
-// Константа скорости (прим., оставлена для совместимости)
-// Источник: https://www.asutpp.ru/skorost-sveta.html
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ., пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: https://www.asutpp.ru/skorost-sveta.html
 const double C = 1'080'000'000;
 
 
-// Инициализация приложения (заголовок консоли)
-void init(const wstring &title = L"Консольное приложение");
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+void init(const wstring &title = L"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
-// Получение кода клавиши (с подсказкой)
-int getKey(const string &message = "\t    Нажмите любую клавишу для продолжения...");
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+int getKey(const string &message = "\t    пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...");
 
-// Случайные значения
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 int    getRand(int    low, int    high);
 double getRand(double low, double high);
 float  getRand(float  low, float  high);
 char   getRand(char   low, char   high);
 
-// Управление цветом текста
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void setColor(short color);
 
-// Ввод целого числа с проверкой
+// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 int getInt();
 
-// Вывод в навигационную строку
+// пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void showNavBarMessage(short hintColor, const string &message);
 void showNavBarMessage(short hintColor, short acctColor, const string &message);
 
-// Экран "В разработке"
+// пїЅпїЅпїЅпїЅпїЅ "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
 void showUnderConstruction(short width, short mainColor, short infoColor);
 
-// Показать сообщение в основной области
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void showMessage(const string &msg, short msgColor, short mainColor);
 
-// Отрисовать поле ввода
-void showInputLine(const string &prompt = "Введите число:", short n = 19, short color = infoColor);
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+void showInputLine(const string &prompt = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:", short n = 19, short color = infoColor);
 
-// Проверка формата ввода
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 void checkInputFormat(istream& is);
 
 // ---------------------------------------------------------------------------------
 #pragma region WinAPI_helpers
-// Работа с WinAPI и консолью
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ WinAPI пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 COORD getConsoleSize();
 
@@ -61,31 +61,33 @@ void getXY(COORD* position);
 void cls();
 #include <Windows.h>
 
-// Печать UTF-8 строки в CP1251-консоль
+// пїЅпїЅпїЅпїЅпїЅпїЅ UTF-8 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ CP1251-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void printCp1251(const string& utf8);
+// Convert UTF-8 string to console encoding when needed
+string toConsole(const string &s);
 #pragma endregion
 
 
 #pragma region stream_manipulators
-// Потоковые манипуляторы и классы-утилиты
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-// Очистка экрана: cout << cls;
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: cout << cls;
 ostream& cls(ostream& os);
 // cin >> cls;
 istream& cls(istream& is);
 
-// Табуляция: cout << tab;
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: cout << tab;
 ostream& tab(ostream& os);
 
-// Включить курсор: cout << cursor
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: cout << cursor
 ostream& cursor(ostream& os);
 istream& cursor(istream& is);
 
-// Отключить курсор: cout << nocursor
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: cout << nocursor
 ostream& nocursor(ostream& os);
 istream& nocursor(istream& is);
 
-// Печать нескольких переводов строки: cout << endlm(n)
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: cout << endlm(n)
 class endlm
 {
 	int n_;
@@ -96,7 +98,7 @@ public:
 	friend ostream& operator<<(ostream& os, const endlm& obj);
 };
 
-// Класс-манипулятор цвета
+// пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 class color
 {
 	short color_;
@@ -108,7 +110,7 @@ public:
 	friend istream& operator>>(istream& is, const color& obj);
 };
 
-// Класс-позиция курсора
+// пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 class pos
 {
 	short x_;
@@ -124,7 +126,7 @@ public:
 #pragma endregion
 
 
-// Сравнение с погрешностью
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 inline bool eq(double d1, double d2) { return abs(d1 - d2) <= 1e-6; }
 inline bool eq(float d1, float d2) { return abs(d1 - d2) <= 1e-6; }
 

@@ -30,7 +30,7 @@ void Menu::currentColor(short value) { currentColor_ = value; }
 // ���������� ������������ ����� ������ ������ ����
 int Menu::getMaxLen() {
 	return (int)max_element(menuItems_.begin(), menuItems_.end(),
-		[](const MenuItem& mi1, const MenuItem& mi2) { return mi1.text().length() < mi2.text().length(); })->text().length();
+		[](MenuItem& mi1, MenuItem& mi2) { return toConsole(mi1.text()).length() < toConsole(mi2.text()).length(); })->text().length();
 } // Menu::getMaxLen
 
 
@@ -44,7 +44,7 @@ void Menu::show() {
 	// � ����� ������� 4����������� ���� ����� � ����� ������
 	int rowOffset = 0;
 	for (auto mi:menuItems_) {
-		string text = mi.text();
+		string text = toConsole(mi.text());
 		cout<< pos(startPosition_.X, startPosition_.Y + rowOffset++)
 			<< color(mi.isSelected()?currentColor_:itemColor_)
 			<< "    " << setw(maxLen)<< text << "    ";
