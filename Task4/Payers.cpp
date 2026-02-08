@@ -3,10 +3,10 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <stdexcept>  // для runtime_error
+#include <stdexcept>  // пїЅпїЅпїЅ runtime_error
 
 void checkInputFormat(istringstream& iss) {
-    if (iss.fail()) throw runtime_error("CSV: неверный формат числа");
+    if (iss.fail()) throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 }
 
 Payers::Payers() {
@@ -20,8 +20,7 @@ void Payers::addPayer() {
 }
 
 void Payers::deleteById(int id) {
-    auto it = remove_if(list_.begin(), list_.end(), [id](const Payer& p) { return p.getId() == id; });
-    list_.erase(it, list_.end());
+    list_.remove_if([id](const Payer& p) { return p.getId() == id; });
 }
 
 list<Payer> Payers::selectByTariff(double tariff) const {
@@ -69,14 +68,14 @@ void Payers::changePayer(int id) {
             return;
         }
     }
-    throw runtime_error("Абонент не найден");
+    throw runtime_error("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void Payers::saveToCSV(const string& fname) const {
     ofstream out(fname);
-    if (!out.is_open()) throw runtime_error(("Ошибка записи в " + fname).c_str());
+    if (!out.is_open()) throw runtime_error(("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ " + fname).c_str());
 
-    out << "ID,ФИО,Телефон,Тариф,Скидка,Минуты,День,Месяц,Год\n";
+    out << "ID,пїЅпїЅпїЅ,пїЅпїЅпїЅпїЅпїЅпїЅпїЅ,пїЅпїЅпїЅпїЅпїЅ,пїЅпїЅпїЅпїЅпїЅпїЅ,пїЅпїЅпїЅпїЅпїЅпїЅ,пїЅпїЅпїЅпїЅ,пїЅпїЅпїЅпїЅпїЅ,пїЅпїЅпїЅ\n";
     for (const auto& p : list_) {
         out << p.getId() << "," << p.getName() << "," << p.getPhone() << "," << p.getTariff() << "," << p.getDiscount()
             << "," << p.getTimeMin() << "," << p.getDate().getDay() << "," << p.getDate().getMonth() << "," << p.getDate().getYear() << "\n";
@@ -84,20 +83,20 @@ void Payers::saveToCSV(const string& fname) const {
 }
 
 void Payers::loadFromCSV(const string& fname) {
-    if (fname.empty()) throw runtime_error("CSV: пустое имя файла.");
+    if (fname.empty()) throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.");
 
     ifstream in(fname);
-    if (!in.is_open()) throw runtime_error(("CSV: не удалось открыть файл " + fname + " для чтения.").c_str());
+    if (!in.is_open()) throw runtime_error(("CSV: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ " + fname + " пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.").c_str());
 
     string line;
-    if (!getline(in, line)) throw runtime_error("CSV: файл пуст.");
+    if (!getline(in, line)) throw runtime_error("CSV: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.");
 
     {
         istringstream iss(line);
         string token;
-        if (!getline(iss, token, ',')) throw runtime_error("CSV: неверный заголовок.");
-        if (token != "ID") throw runtime_error("CSV: неверный заголовок (ожидается ID).");
-        // Проверки для остальных заголовков аналогично, но опускаем по примеру
+        if (!getline(iss, token, ',')) throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
+        if (token != "ID") throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID).");
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     list_.clear();
@@ -111,24 +110,24 @@ void Payers::loadFromCSV(const string& fname) {
 
         iss >> id;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: неверный формат строки (после ID).");
+        if (iss.get() != ',') throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ ID).");
         getline(iss, name, ',');
         getline(iss, phone, ',');
         iss >> tariff;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: неверный формат строки (после тарифа).");
+        if (iss.get() != ',') throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ).");
         iss >> discount;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: неверный формат строки (после скидки).");
+        if (iss.get() != ',') throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ).");
         iss >> timeMin;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: неверный формат строки (после минут).");
+        if (iss.get() != ',') throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ).");
         iss >> d;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: неверный формат строки (после дня).");
+        if (iss.get() != ',') throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ).");
         iss >> m;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: неверный формат строки (после месяца).");
+        if (iss.get() != ',') throw runtime_error("CSV: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ).");
         iss >> y;
         checkInputFormat(iss);
 
@@ -144,5 +143,5 @@ void Payers::loadFromCSV(const string& fname) {
         nextId_ = max(nextId_, p.getId() + 1);
     }
 
-    if (list_.empty()) throw runtime_error("CSV: в файле нет абонентов для загрузки.");
+    if (list_.empty()) throw runtime_error("CSV: пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
 }
