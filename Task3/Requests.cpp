@@ -3,6 +3,17 @@
 #include <algorithm>
 #include <fstream>
 
+// Helper: produce ASCII-only preview of a possibly non-ASCII string
+static string asciiPreview(const string &s, size_t maxLen = 32) {
+    string out;
+    for (unsigned char c : s) {
+        if (out.size() >= maxLen) break;
+        if (c >= 0x20 && c < 0x7f) out.push_back(static_cast<char>(c)); else out.push_back('?');
+    }
+    if (s.size() > maxLen) out += "...";
+    return out;
+}
+
 Requests::Requests() {
     for (int i = 0; i < 15; ++i) {
         list_.push_back(Request::createFactory(nextId_++));
@@ -27,7 +38,7 @@ list<Request> Requests::selectByFlight(const string& flight) {
             ++matched;
         }
     }
-    cout << "[DEBUG] selectByFlight key='" << flight << "' matched " << matched << " of " << total << "\n";
+    cout << "[DEBUG] selectByFlight key='" << asciiPreview(flight, 40) << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
@@ -49,7 +60,7 @@ list<Request> Requests::selectByPassenger(const string& pass) {
         ++total;
         if (r.getPassenger() == pass) { result.push_back(r); ++matched; }
     }
-    cout << "[DEBUG] selectByPassenger key='" << pass << "' matched " << matched << " of " << total << "\n";
+    cout << "[DEBUG] selectByPassenger key='" << asciiPreview(pass, 40) << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
