@@ -4,12 +4,22 @@
 App::App() {}
 
 void App::printList(const list<Payer>& lst, const string& title) const {
-    // determine available width from console
+    // Single-line tabular output with aggressive truncation so it fits console width
     const int consoleWidth = static_cast<int>(getConsoleSize().X);
-    const int totalWidth = max(40, min(consoleWidth - 4, 120));
+    const int totalWidth = max(40, consoleWidth - 4);
 
-    cout << "     " << title << "\n";
-    cout << "     +" << string(totalWidth, '-') << "+\n";
+    // fixed column sizes
+    const int colRow = 4;   // index
+    const int colId = 4;
+    const int colPhone = 12;
+    const int colTariff = 8;
+    const int colDisc = 4;
+    const int colMin = 5;
+    const int colDate = 10;
+    const int colSum = 10;
+
+    int fixedCols = colRow + colId + colPhone + colTariff + colDisc + colMin + colDate + colSum + 9; // separators
+    int nameCol = max(6, totalWidth - fixedCols);
 
     auto fit = [](const string& s, int maxLen) {
         if (maxLen <= 0) return string();
@@ -18,30 +28,41 @@ void App::printList(const list<Payer>& lst, const string& title) const {
         return s.substr(0, maxLen - 3) + "...";
     };
 
+    cout << "     " << title << "\n";
+
+    // header
+    cout << " ";
+    cout << left << setw(colRow - 1) << "#" << " | ";
+    cout << left << setw(colId) << "ID" << " | ";
+    cout << left << setw(nameCol) << "Name" << " | ";
+    cout << left << setw(colPhone) << "Phone" << " | ";
+    cout << right << setw(colTariff) << "Tariff" << " | ";
+    cout << right << setw(colDisc) << "Disc" << " | ";
+    cout << right << setw(colMin) << "Min" << " | ";
+    cout << left << setw(colDate) << "Date" << " | ";
+    cout << right << setw(colSum) << "Sum" << "\n";
+
+    cout << string(min(totalWidth, 200), '-') << "\n";
+
     int row = 1;
-    const int innerWidth = totalWidth - 2; // padding
     for (const auto& p : lst) {
-        // line 1: compact id and name
-        string idPart = "ID:" + to_string(p.getId());
-        string namePart = " Name: " + fit(p.getName(), innerWidth - (int)idPart.size());
-        cout << " " << setfill('0') << setw(3) << row++ << setfill(' ') << " ";
-        cout << idPart << namePart << "\n";
+        cout << " ";
+        cout << left << setw(colRow - 1) << row++ << " | ";
+        cout << left << setw(colId) << p.getId() << " | ";
+        cout << left << setw(nameCol) << fit(p.getName(), nameCol) << " | ";
+        cout << left << setw(colPhone) << fit(p.getPhone(), colPhone) << " | ";
 
-        // line 2: phone, tariff, discount, minutes
-        ostringstream l2;
-        l2 << " Phone:" << fit(p.getPhone(), 12)
-           << "  Tariff:" << fixed << setprecision(2) << p.getTariff()
-           << "  Disc:" << p.getDiscount()
-           << "  Min:" << p.getTimeMin();
-        cout << "      " << fit(l2.str(), innerWidth) << "\n";
+        ostringstream ssum;
+        ssum << fixed << setprecision(2) << p.calculateSum();
 
-        // line 3: date and sum
-        ostringstream l3;
-        l3 << " Date:" << p.getDate().toString() << "  Sum:" << fixed << setprecision(2) << p.calculateSum();
-        cout << "      " << fit(l3.str(), innerWidth) << "\n";
+        cout << right << setw(colTariff) << fixed << setprecision(2) << p.getTariff() << " | ";
+        cout << right << setw(colDisc) << p.getDiscount() << " | ";
+        cout << right << setw(colMin) << p.getTimeMin() << " | ";
+        cout << left << setw(colDate) << p.getDate().toString() << " | ";
+        cout << right << setw(colSum) << ssum.str() << "\n";
     }
 
-    cout << "     +" << string(totalWidth, '-') << "+\n";
+    cout << "\n";
 }
 
 void App::doAddPayer() {
