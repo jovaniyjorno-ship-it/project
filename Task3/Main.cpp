@@ -5,7 +5,7 @@
 #include "App.h"
 
 int main() {
-    init(L"Task3: Заявки на авиабилеты");
+    init(L"Task3: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     App app;
 
@@ -27,20 +27,20 @@ int main() {
     };
 
     vector<MenuItem> items = {
-        MenuItem(CMD_ADD, "Добавить заявку"),
-        MenuItem(CMD_REMOVE, "Удалить по ID"),
-        MenuItem(CMD_FILTER_FLIGHT, "Отбор по рейсу"),
-        MenuItem(CMD_FILTER_DATE, "Отбор по дате"),
-        MenuItem(CMD_FILTER_PASS, "Отбор по пассажиру"),
-        MenuItem(CMD_SORT_ID, "Сорт по ID"),
-        MenuItem(CMD_SORT_DATE, "Сорт по дате"),
-        MenuItem(CMD_SORT_DEST, "Сорт по пункту"),
-        MenuItem(CMD_CHANGE, "Изменить заявку"),
+        MenuItem(CMD_ADD, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"),
+        MenuItem(CMD_REMOVE, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ID"),
+        MenuItem(CMD_FILTER_FLIGHT, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ"),
+        MenuItem(CMD_FILTER_DATE, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ"),
+        MenuItem(CMD_FILTER_PASS, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),
+        MenuItem(CMD_SORT_ID, "пїЅпїЅпїЅпїЅ пїЅпїЅ ID"),
+        MenuItem(CMD_SORT_DATE, "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ"),
+        MenuItem(CMD_SORT_DEST, "пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"),
+        MenuItem(CMD_CHANGE, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"),
         MenuItem(CMD_SAVE, "Save binary"),
         MenuItem(CMD_LOAD, "Load binary"),
         MenuItem(CMD_SWAP_FIRST_LAST, "Swap first/last in file"),
         MenuItem(CMD_SWAP_EARLY_LATEST, "Swap earliest/latest in file"),
-        MenuItem(Menu::CMD_QUIT, "Выход")
+        MenuItem(Menu::CMD_QUIT, "пїЅпїЅпїЅпїЅпїЅ")
     };
 
     Menu menu(COORD{ 5, 5 }, items, mainColor, infoColor);
@@ -48,7 +48,7 @@ int main() {
     while (true) {
         try {
             cls();
-            showNavBarMessage(hintColor, "Task3: Заявки");
+            showNavBarMessage(hintColor, "Task3: пїЅпїЅпїЅпїЅпїЅпїЅ");
 
             int cmd = menu.navigate();
             if (cmd == Menu::CMD_QUIT) break;
@@ -68,17 +68,13 @@ int main() {
             case CMD_SWAP_FIRST_LAST: app.doSwapFirstLastInFile(); break;
             case CMD_SWAP_EARLY_LATEST: app.doSwapEarliestLatestInFile(); break;
             }
-
-            cls();
-            app.printList(app.getRequests(), "Обновленный список");
-            getKey("\nНажмите для продолжения...");
         }
         catch (exception& ex) {
             int x = 12, y = 8;
             cout << color(errColor)
                 << pos(x, y) << setw(W) << " "
                 << pos(x, y + 1) << setw(W) << " "
-                << pos(x, y + 2) << setw(W) << left << "    [Ошибка]"
+                << pos(x, y + 2) << setw(W) << left << "    [пїЅпїЅпїЅпїЅпїЅпїЅ]"
                 << pos(x, y + 3) << setw(W) << " "
                 << pos(x, y + 4) << setw(W) << ("    "s + ex.what())
                 << pos(x, y + 5) << setw(W) << " "

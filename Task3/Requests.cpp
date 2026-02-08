@@ -3,17 +3,6 @@
 #include <algorithm>
 #include <fstream>
 
-// Helper: produce ASCII-only preview of a possibly non-ASCII string
-static string asciiPreview(const string &s, size_t maxLen = 32) {
-    string out;
-    for (unsigned char c : s) {
-        if (out.size() >= maxLen) break;
-        if (c >= 0x20 && c < 0x7f) out.push_back(static_cast<char>(c)); else out.push_back('?');
-    }
-    if (s.size() > maxLen) out += "...";
-    return out;
-}
-
 Requests::Requests() {
     for (int i = 0; i < 15; ++i) {
         list_.push_back(Request::createFactory(nextId_++));
@@ -30,37 +19,25 @@ void Requests::deleteById(int id) {
 
 list<Request> Requests::selectByFlight(const string& flight) {
     list<Request> result;
-    int total = 0, matched = 0;
     for (const auto &r : list_) {
-        ++total;
-        if (r.getFlightNum() == flight) {
-            result.push_back(r);
-            ++matched;
-        }
+        if (r.getFlightNum() == flight) result.push_back(r);
     }
-    cout << "[DEBUG] selectByFlight key='" << asciiPreview(flight, 40) << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
 list<Request> Requests::selectByDate(const Date& date) {
     list<Request> result;
-    int total = 0, matched = 0;
     for (const auto &r : list_) {
-        ++total;
-        if (r.getDate() == date) { result.push_back(r); ++matched; }
+        if (r.getDate() == date) result.push_back(r);
     }
-    cout << "[DEBUG] selectByDate key='" << date.toString() << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
 list<Request> Requests::selectByPassenger(const string& pass) {
     list<Request> result;
-    int total = 0, matched = 0;
     for (const auto &r : list_) {
-        ++total;
-        if (r.getPassenger() == pass) { result.push_back(r); ++matched; }
+        if (r.getPassenger() == pass) result.push_back(r);
     }
-    cout << "[DEBUG] selectByPassenger key='" << asciiPreview(pass, 40) << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
