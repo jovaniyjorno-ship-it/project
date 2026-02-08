@@ -40,6 +40,8 @@ void Menu::show() {
 	int maxLen = getMaxLen();
 	cout << left;
 
+	// ����� � �������� �������, ��� ������� ���������� ������,
+	// � ����� ������� 4����������� ���� ����� � ����� ������
 	int rowOffset = 0;
 	for (auto mi:menuItems_) {
 		string text = mi.text();
