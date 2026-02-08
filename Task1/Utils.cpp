@@ -186,7 +186,7 @@ void showInputLine(const string &prompt, short n, short color) {
 
 
 // ---------------------------------------------------------------------------------
-#pragma region WinAPI_helpers
+#pragma region применение_структур_в_применуктур_в_применуктур_в_WinAPI
 // включение или выключение курсора консоли
 // mode: true  - включить курсор
 //       false - выключить курсор
@@ -275,7 +275,7 @@ COORD getConsoleSize() {
 #pragma endregion
 
 
-#pragma region stream_manipulators
+#pragma region реализация манипуляторов выводаторов выводаторов вывода
 // "манипулятор" вывода без параметров для очистки экрана
 // cout << cls;
 ostream& cls(ostream& os) {

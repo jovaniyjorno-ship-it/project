@@ -48,7 +48,7 @@ void showInputLine(const string &prompt = "Введите число:", short n 
 void checkInputFormat(istream& is);
 
 // ---------------------------------------------------------------------------------
-#pragma region WinAPI_helpers
+#pragma region применение структур в применуктур в применуктур в WinAPI
 // получение размера экрана консоли
 COORD getConsoleSize();
 
@@ -63,7 +63,7 @@ void cls();
 #pragma endregion
 
 
-#pragma region stream_manipulators
+#pragma region реализация манипуляторов выводаторов выводаторов вывода
 // имитация манипулятора вывода без параметра
 
 // "манипулятор" вывода без параметров для очистки экрана
