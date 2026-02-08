@@ -4,171 +4,192 @@
 App::App() {}
 
 void App::printList(const list<Payer>& lst, const string& title) const {
-    cout << "     " << title << "\n"
-        << "     +" << setfill('-') << setw(90) << "-" << "+"
-        << setfill(' ') << "\n";
+    // determine available width from console
+    const int consoleWidth = static_cast<int>(getConsoleSize().X);
+    const int totalWidth = max(40, min(consoleWidth - 4, 120));
+
+    cout << "     " << title << "\n";
+    cout << "     +" << string(totalWidth, '-') << "+\n";
+
+    auto fit = [](const string& s, int maxLen) {
+        if (maxLen <= 0) return string();
+        if ((int)s.size() <= maxLen) return s;
+        if (maxLen <= 3) return string(maxLen, '.');
+        return s.substr(0, maxLen - 3) + "...";
+    };
 
     int row = 1;
+    const int innerWidth = totalWidth - 2; // padding
     for (const auto& p : lst) {
-        cout << " " << setfill('0') << setw(3) << row++ << setfill(' ')
-            << " | ID: " << setw(4) << p.getId()
-            << " | ФИО: " << setw(15) << p.getName()
-            << " | Телефон: " << setw(10) << p.getPhone()
-            << " | Тариф: " << fixed << setprecision(2) << setw(5) << p.getTariff()
-            << " | Скидка: " << setw(3) << p.getDiscount()
-            << " | Минуты: " << setw(5) << p.getTimeMin()
-            << " | Дата: " << p.getDate().toString() << " | Сумма: " << fixed << setprecision(2) << p.calculateSum() << " |\n";
+        // line 1: compact id and name
+        string idPart = "ID:" + to_string(p.getId());
+        string namePart = " Name: " + fit(p.getName(), innerWidth - (int)idPart.size());
+        cout << " " << setfill('0') << setw(3) << row++ << setfill(' ') << " ";
+        cout << idPart << namePart << "\n";
+
+        // line 2: phone, tariff, discount, minutes
+        ostringstream l2;
+        l2 << " Phone:" << fit(p.getPhone(), 12)
+           << "  Tariff:" << fixed << setprecision(2) << p.getTariff()
+           << "  Disc:" << p.getDiscount()
+           << "  Min:" << p.getTimeMin();
+        cout << "      " << fit(l2.str(), innerWidth) << "\n";
+
+        // line 3: date and sum
+        ostringstream l3;
+        l3 << " Date:" << p.getDate().toString() << "  Sum:" << fixed << setprecision(2) << p.calculateSum();
+        cout << "      " << fit(l3.str(), innerWidth) << "\n";
     }
-    cout << "     +" << setfill('-') << setw(90) << "-" << "+"
-        << setfill(' ') << "\n";
+
+    cout << "     +" << string(totalWidth, '-') << "+\n";
 }
 
 void App::doAddPayer() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для добавления");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     payers_.addPayer();
-    cout << "Добавлено\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doDeleteById() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для удаления");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (payers_.getList().empty()) throw exception("Список пуст");
+    if (payers_.getList().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     int id = it->getId();
     payers_.deleteById(id);
-    cout << color(errColor) << "Удален абонент ID: " << id << color(mainColor) << "\n";
+    cout << color(errColor) << "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID: " << id << color(mainColor) << "\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSelectByTariff() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для отбора");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (payers_.getList().empty()) throw exception("Список пуст");
+    if (payers_.getList().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     double tariff = it->getTariff();
-    cout << "Отбор по тарифу: " << tariff << "\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " << tariff << "\n";
     auto res = payers_.selectByTariff(tariff);
-    printList(res, "Отбор по тарифу");
+    printList(res, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSelectByDiscount() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для отбора");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (payers_.getList().empty()) throw exception("Список пуст");
+    if (payers_.getList().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     int discount = it->getDiscount();
-    cout << "Отбор по скидке: " << discount << "\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " << discount << "\n";
     auto res = payers_.selectByDiscount(discount);
-    printList(res, "Отбор по скидке");
+    printList(res, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSelectBySumRange() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для отбора");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (payers_.getList().empty()) throw exception("Список пуст");
+    if (payers_.getList().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
     double low = getRand(10.0, 100.0);
     double high = low + getRand(50.0, 200.0);
-    cout << "Отбор по сумме в диапазоне: " << low << " - " << high << "\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << low << " - " << high << "\n";
     auto res = payers_.selectBySumRange(low, high);
-    printList(res, "Отбор по сумме (отсортировано по телефону)");
+    printList(res, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)");
 }
 
 void App::doSortById() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для сортировки");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     payers_.sortById();
-    cout << "Сортировано по ID\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ID\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSortByName() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для сортировки");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     payers_.sortByName();
-    cout << "Сортировано по ФИО\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSortBySumDescending() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для сортировки");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     payers_.sortBySumDescending();
-    cout << "Сортировано по убыванию суммы\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doChangePayer() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для изменения");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
-    if (payers_.getList().empty()) throw exception("Список пуст");
+    if (payers_.getList().empty()) throw exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     int id = it->getId();
     payers_.changePayer(id);
-    cout << "Изменен ID: " << id << "\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID: " << id << "\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doSaveToCSV() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для сохранения");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     payers_.saveToCSV(csvFile_);
-    cout << "Сохранено\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void App::doLoadFromCSV() {
     cls();
-    printList(payers_.getList(), "Текущий список");
-    getKey("\nНажмите для загрузки");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+    getKey("\nпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     payers_.loadFromCSV(csvFile_);
-    cout << "Загружено\n";
+    cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
 
     cls();
-    printList(payers_.getList(), "Обновленный список");
+    printList(payers_.getList(), "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 }
