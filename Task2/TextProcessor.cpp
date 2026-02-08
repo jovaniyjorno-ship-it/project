@@ -45,6 +45,7 @@ map<string, double> TextProcessor::makeLettersFrequencyDict(const string& fileNa
     string text;
     string line;
     while (getline(fs, line)) {
+        if (!text.empty()) text += ' ';
         text += line;
     }
     fs.close();
