@@ -19,25 +19,25 @@ void Requests::deleteById(int id) {
 
 list<Request> Requests::selectByFlight(const string& flight) {
     list<Request> result;
-    copy_if(list_.begin(), list_.end(), back_inserter(result), [flight](const Request& r) {
-        return r.getFlightNum() == flight;
-        });
+    for (const auto &r : list_) {
+        if (r.getFlightNum() == flight) result.push_back(r);
+    }
     return result;
 }
 
 list<Request> Requests::selectByDate(const Date& date) {
     list<Request> result;
-    copy_if(list_.begin(), list_.end(), back_inserter(result), [date](const Request& r) {
-        return r.getDate() == date;
-        });
+    for (const auto &r : list_) {
+        if (r.getDate() == date) result.push_back(r);
+    }
     return result;
 }
 
 list<Request> Requests::selectByPassenger(const string& pass) {
     list<Request> result;
-    copy_if(list_.begin(), list_.end(), back_inserter(result), [pass](const Request& r) {
-        return r.getPassenger() == pass;
-        });
+    for (const auto &r : list_) {
+        if (r.getPassenger() == pass) result.push_back(r);
+    }
     return result;
 }
 
