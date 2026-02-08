@@ -19,25 +19,37 @@ void Requests::deleteById(int id) {
 
 list<Request> Requests::selectByFlight(const string& flight) {
     list<Request> result;
+    int total = 0, matched = 0;
     for (const auto &r : list_) {
-        if (r.getFlightNum() == flight) result.push_back(r);
+        ++total;
+        if (r.getFlightNum() == flight) {
+            result.push_back(r);
+            ++matched;
+        }
     }
+    cout << "[DEBUG] selectByFlight key='" << flight << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
 list<Request> Requests::selectByDate(const Date& date) {
     list<Request> result;
+    int total = 0, matched = 0;
     for (const auto &r : list_) {
-        if (r.getDate() == date) result.push_back(r);
+        ++total;
+        if (r.getDate() == date) { result.push_back(r); ++matched; }
     }
+    cout << "[DEBUG] selectByDate key='" << date.toString() << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
 list<Request> Requests::selectByPassenger(const string& pass) {
     list<Request> result;
+    int total = 0, matched = 0;
     for (const auto &r : list_) {
-        if (r.getPassenger() == pass) result.push_back(r);
+        ++total;
+        if (r.getPassenger() == pass) { result.push_back(r); ++matched; }
     }
+    cout << "[DEBUG] selectByPassenger key='" << pass << "' matched " << matched << " of " << total << "\n";
     return result;
 }
 
