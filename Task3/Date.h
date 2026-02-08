@@ -2,12 +2,12 @@
 #include "pch.h"
 #include "Object.h"
 
-// Класс, описывающий дату: день, месяц, год. 
+// РљР»Р°СЃСЃ, РѕРїРёСЃС‹РІР°СЋС‰РёР№ РґР°С‚Сѓ: РґРµРЅСЊ, РјРµСЃСЏС†, РіРѕРґ. 
 class Date : public Object
 {
-    short day_;   // день
-    short month_; // месяц
-    short year_;  // год
+    short day_;   // РґРµРЅСЊ
+    short month_; // РјРµСЃСЏС†
+    short year_;  // РіРѕРґ
 
     static bool  dateValid(short day, short month, short year);
     static short daysInMonth(short month, short year);
@@ -17,7 +17,7 @@ class Date : public Object
     void toGrigorian(int julianDays);
 
 public:
-    // ансамбль конструкторов
+    // Р°РЅСЃР°РјР±Р»СЊ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРѕРІ
     Date() : day_(1), month_(1), year_(1970) {}
     Date(short day, short month, short year) {
         setDate(day, month, year);
@@ -26,18 +26,18 @@ public:
     Date(const Date& date) = default;
     virtual ~Date() = default;
 
-    // геттеры и сеттер
+    // РіРµС‚С‚РµСЂС‹ Рё СЃРµС‚С‚РµСЂ
     short getDay()   const { return day_; }
     short getMonth() const { return month_; }
     short getYear()  const { return year_; }
 
     void setDate(short day, short month, short year);
 
-    // реализация виртуального метода
+    // СЂРµР°Р»РёР·Р°С†РёСЏ РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ РјРµС‚РѕРґР°
     virtual string toString() const override;
 
-    // перегруженные оператор
-    // Операции <, == для добавления в map, multimap, set, multiset 
+    // РїРµСЂРµРіСЂСѓР¶РµРЅРЅС‹Рµ РѕРїРµСЂР°С‚РѕСЂ
+    // РћРїРµСЂР°С†РёРё <, == РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ map, multimap, set, multiset 
     bool operator <(const Date& date) const;
     bool operator==(const Date& date) const;
 

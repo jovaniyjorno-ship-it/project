@@ -5,7 +5,7 @@
 #include "App.h"
 
 int main() try {
-    init(L"Task4: Абоненты ГАТС");
+    init(L"Task4: РђР±РѕРЅРµРЅС‚С‹ Р“РђРўРЎ");
 
     App app;
 
@@ -25,25 +25,25 @@ int main() try {
     };
 
     vector<MenuItem> items = {
-        MenuItem(CMD_ADD, "Добавить абонента"),
-        MenuItem(CMD_REMOVE, "Удалить по ID"),
-        MenuItem(CMD_FILTER_TARIFF, "Отбор по тарифу"),
-        MenuItem(CMD_FILTER_DISCOUNT, "Отбор по скидке"),
-        MenuItem(CMD_FILTER_SUM_RANGE, "Отбор по сумме в диапазоне"),
-        MenuItem(CMD_SORT_ID, "Сорт по ID"),
-        MenuItem(CMD_SORT_NAME, "Сорт по ФИО"),
-        MenuItem(CMD_SORT_SUM_DESC, "Сорт по сумме убыв."),
-        MenuItem(CMD_CHANGE, "Изменить абонента"),
+        MenuItem(CMD_ADD, "Р”РѕР±Р°РІРёС‚СЊ Р°Р±РѕРЅРµРЅС‚Р°"),
+        MenuItem(CMD_REMOVE, "РЈРґР°Р»РёС‚СЊ РїРѕ ID"),
+        MenuItem(CMD_FILTER_TARIFF, "РћС‚Р±РѕСЂ РїРѕ С‚Р°СЂРёС„Сѓ"),
+        MenuItem(CMD_FILTER_DISCOUNT, "РћС‚Р±РѕСЂ РїРѕ СЃРєРёРґРєРµ"),
+        MenuItem(CMD_FILTER_SUM_RANGE, "РћС‚Р±РѕСЂ РїРѕ СЃСѓРјРјРµ РІ РґРёР°РїР°Р·РѕРЅРµ"),
+        MenuItem(CMD_SORT_ID, "РЎРѕСЂС‚ РїРѕ ID"),
+        MenuItem(CMD_SORT_NAME, "РЎРѕСЂС‚ РїРѕ Р¤РРћ"),
+        MenuItem(CMD_SORT_SUM_DESC, "РЎРѕСЂС‚ РїРѕ СЃСѓРјРјРµ СѓР±С‹РІ."),
+        MenuItem(CMD_CHANGE, "РР·РјРµРЅРёС‚СЊ Р°Р±РѕРЅРµРЅС‚Р°"),
         MenuItem(CMD_SAVE, "Save CSV"),
         MenuItem(CMD_LOAD, "Load CSV"),
-        MenuItem(Menu::CMD_QUIT, "Выход")
+        MenuItem(Menu::CMD_QUIT, "Р’С‹С…РѕРґ")
     };
 
     Menu menu(COORD{ 5, 5 }, items, mainColor, infoColor);
 
     while (true) {
         cls();
-        showNavBarMessage(hintColor, "Task4: Абоненты");
+        showNavBarMessage(hintColor, "Task4: РђР±РѕРЅРµРЅС‚С‹");
 
         int cmd = menu.navigate();
         if (cmd == Menu::CMD_QUIT) break;
@@ -62,7 +62,7 @@ int main() try {
         case CMD_LOAD: app.doLoadFromCSV(); break;
         }
 
-        getKey("\nНажмите для продолжения...");
+        getKey("\nРќР°Р¶РјРёС‚Рµ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ...");
     }
 
     cls();
@@ -73,7 +73,7 @@ catch (exception& ex) {
     cout << color(errColor)
         << pos(x, y) << setw(W) << " "
         << pos(x, y + 1) << setw(W) << " "
-        << pos(x, y + 2) << setw(W) << left << "    [Ошибка]"
+        << pos(x, y + 2) << setw(W) << left << "    [РћС€РёР±РєР°]"
         << pos(x, y + 3) << setw(W) << " "
         << pos(x, y + 4) << setw(W) << ("    "s + ex.what())
         << pos(x, y + 5) << setw(W) << " "

@@ -1,18 +1,18 @@
 #pragma once
-// пункт меню
+// РїСѓРЅРєС‚ РјРµРЅСЋ
 class MenuItem
 {
-	// код команды
+	// РєРѕРґ РєРѕРјР°РЅРґС‹
 	int command_;
 
-	// текст пункта меню
+	// С‚РµРєСЃС‚ РїСѓРЅРєС‚Р° РјРµРЅСЋ
 	string text_;
 
-	// признак выбранного пункта меню
+	// РїСЂРёР·РЅР°Рє РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСѓРЅРєС‚Р° РјРµРЅСЋ
 	bool selected_;
 
 public:
-	// конструкторы и деструктор
+	// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 	MenuItem();
 	
 	// MenuItem(int command, const char* text);
@@ -22,10 +22,10 @@ public:
 
 	~MenuItem() = default;
 
-	// перегрузка операции присваивания
+	// РїРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С†РёРё РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	MenuItem& operator=(const MenuItem& other) = default;
 
-	// аксессоры
+	// Р°РєСЃРµСЃСЃРѕСЂС‹
     int command() const;
 	const string &text() const;
 	bool isSelected() const;

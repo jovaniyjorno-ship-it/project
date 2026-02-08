@@ -5,7 +5,7 @@
 Payer Payer::createFactory(int id) {
     Payer p;
     p.setId(id);
-    p.setName("Àáîíåíò" + to_string(getRand(1, 20)));
+    p.setName("ĞĞ±Ğ¾Ğ½ĞµĞ½Ñ‚" + to_string(getRand(1, 20)));
     p.setPhone("062-" + to_string(getRand(121, 333)));
     p.setTariff(getRand(1.0, 5.0));
     p.setDiscount(getRand(0, 20));
@@ -16,8 +16,8 @@ Payer Payer::createFactory(int id) {
 
 string Payer::toString() const {
     ostringstream oss;
-    oss << "ID: " << getId() << ", ÔÈÎ: " << getName() << ", Òåëåôîí: " << getPhone()
-        << ", Òàğèô: " << fixed << setprecision(2) << getTariff() << ", Ñêèäêà: " << getDiscount()
-        << ", Ìèíóòû: " << getTimeMin() << ", Äàòà: " << getDate().toString() << ", Ñóììà: " << calculateSum();
+    oss << "ID: " << getId() << ", Ğ¤Ğ˜Ğ: " << getName() << ", Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½: " << getPhone()
+        << ", Ğ¢Ğ°Ñ€Ğ¸Ñ„: " << fixed << setprecision(2) << getTariff() << ", Ğ¡ĞºĞ¸Ğ´ĞºĞ°: " << getDiscount()
+        << ", ĞœĞ¸Ğ½ÑƒÑ‚Ñ‹: " << getTimeMin() << ", Ğ”Ğ°Ñ‚Ğ°: " << getDate().toString() << ", Ğ¡ÑƒĞ¼Ğ¼Ğ°: " << calculateSum();
     return oss.str();
 }
