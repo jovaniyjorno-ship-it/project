@@ -34,8 +34,8 @@ void App::printList(const list<Payer>& lst, const string& title) const {
     cout << " ";
     cout << left << setw(colRow - 1) << "#" << " | ";
     cout << left << setw(colId) << "ID" << " | ";
-    cout << left << setw(nameCol) << "Name" << " | ";
-    cout << left << setw(colPhone) << "Phone" << " | ";
+    cout << left << setw(nameCol) << "Имя" << " | ";
+    cout << left << setw(colPhone) << "Телефон" << " | ";
     cout << right << setw(colTariff) << "Tariff" << " | ";
     cout << right << setw(colDisc) << "Disc" << " | ";
     cout << right << setw(colMin) << "Min" << " | ";
@@ -67,150 +67,150 @@ void App::printList(const list<Payer>& lst, const string& title) const {
 
 void App::doAddPayer() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
     payers_.addPayer();
-    cout << "���������\n";
+    cout << "Готово\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doDeleteById() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ��������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
-    if (payers_.getList().empty()) throw exception("������ ����");
+    if (payers_.getList().empty()) throw exception("Список пуст");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     int id = it->getId();
     payers_.deleteById(id);
-    cout << color(errColor) << "������ ������� ID: " << id << color(mainColor) << "\n";
+    cout << color(errColor) << "Удалён плательщик ID: " << id << color(mainColor) << "\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doSelectByTariff() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
-    if (payers_.getList().empty()) throw exception("������ ����");
+    if (payers_.getList().empty()) throw exception("Список пуст");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     double tariff = it->getTariff();
-    cout << "����� �� ������: " << tariff << "\n";
+    cout << "Выбранный тариф: " << tariff << "\n";
     auto res = payers_.selectByTariff(tariff);
-    printList(res, "����� �� ������");
+    printList(res, "Плательщики по тарифу");
 }
 
 void App::doSelectByDiscount() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
-    if (payers_.getList().empty()) throw exception("������ ����");
+    if (payers_.getList().empty()) throw exception("Список пуст");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     int discount = it->getDiscount();
-    cout << "����� �� ������: " << discount << "\n";
+    cout << "Выбранная скидка: " << discount << "\n";
     auto res = payers_.selectByDiscount(discount);
-    printList(res, "����� �� ������");
+    printList(res, "Плательщики по скидке");
 }
 
 void App::doSelectBySumRange() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
-    if (payers_.getList().empty()) throw exception("������ ����");
+    if (payers_.getList().empty()) throw exception("Список пуст");
 
     double low = getRand(10.0, 100.0);
     double high = low + getRand(50.0, 200.0);
-    cout << "����� �� ����� � ���������: " << low << " - " << high << "\n";
+    cout << "Диапазон сумм: " << low << " - " << high << "\n";
     auto res = payers_.selectBySumRange(low, high);
-    printList(res, "����� �� ����� (������������� �� ��������)");
+    printList(res, "Плательщики по сумме (в диапазоне)");
 }
 
 void App::doSortById() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
     payers_.sortById();
-    cout << "����������� �� ID\n";
+    cout << "Отсортировано по ID\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doSortByName() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
     payers_.sortByName();
-    cout << "����������� �� ���\n";
+    cout << "Отсортировано по имени\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doSortBySumDescending() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
     payers_.sortBySumDescending();
-    cout << "����������� �� �������� �����\n";
+    cout << "Отсортировано по сумме (убывание)\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doChangePayer() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ���������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
-    if (payers_.getList().empty()) throw exception("������ ����");
+    if (payers_.getList().empty()) throw exception("Список пуст");
 
     auto it = payers_.getList().begin();
     advance(it, getRand(0, payers_.getList().size() - 1));
     int id = it->getId();
     payers_.changePayer(id);
-    cout << "������� ID: " << id << "\n";
+    cout << "Изменён плательщик ID: " << id << "\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doSaveToCSV() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ����������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
     payers_.saveToCSV(csvFile_);
-    cout << "���������\n";
+    cout << "Готово\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }
 
 void App::doLoadFromCSV() {
     cls();
-    printList(payers_.getList(), "������� ������");
-    getKey("\n������� ��� ��������");
+    printList(payers_.getList(), "Список плательщиков");
+    getKey("\nНажмите любую клавишу для продолжения");
 
     payers_.loadFromCSV(csvFile_);
-    cout << "���������\n";
+    cout << "Готово\n";
 
     cls();
-    printList(payers_.getList(), "����������� ������");
+    printList(payers_.getList(), "Список плательщиков");
 }

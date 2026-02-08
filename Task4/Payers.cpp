@@ -3,10 +3,10 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <stdexcept>  // ��� runtime_error
+#include <stdexcept>  // for runtime_error
 
 void checkInputFormat(istringstream& iss) {
-    if (iss.fail()) throw runtime_error("CSV: �������� ������ �����");
+    if (iss.fail()) throw runtime_error("CSV: неверный формат поля");
 }
 
 Payers::Payers() {
@@ -49,6 +49,44 @@ list<Payer> Payers::selectBySumRange(double low, double high) const {
     return result;
 }
 
+list<Payer> Payers::selectByPhone(const string& phone) const {
+    list<Payer> result;
+    copy_if(list_.begin(), list_.end(), back_inserter(result), [&phone](const Payer& p) {
+        return p.getPhone() == phone;
+    });
+    return result;
+}
+
+list<Payer> Payers::selectByName(const string& name) const {
+    list<Payer> result;
+    copy_if(list_.begin(), list_.end(), back_inserter(result), [&name](const Payer& p) {
+        return p.getName() == name;
+    });
+    return result;
+}
+
+list<Payer> Payers::selectByDate(const Date& date) const {
+    list<Payer> result;
+    copy_if(list_.begin(), list_.end(), back_inserter(result), [&date](const Payer& p) {
+        return p.getDate() == date;
+    });
+    return result;
+}
+
+double Payers::totalPayments() const {
+    double sum = 0.0;
+    for (const auto& p : list_) sum += p.calculateSum();
+    return sum;
+}
+
+void Payers::sortByPhone() {
+    list_.sort([](const Payer& a, const Payer& b) { return a.getPhone() < b.getPhone(); });
+}
+
+void Payers::sortByTimeDescending() {
+    list_.sort([](const Payer& a, const Payer& b) { return a.getTimeMin() > b.getTimeMin(); });
+}
+
 void Payers::sortById() {
     list_.sort([](const Payer& a, const Payer& b) { return a.getId() < b.getId(); });
 }
@@ -68,14 +106,14 @@ void Payers::changePayer(int id) {
             return;
         }
     }
-    throw runtime_error("������� �� ������");
+    throw runtime_error("Плательщик не найден");
 }
 
 void Payers::saveToCSV(const string& fname) const {
     ofstream out(fname);
-    if (!out.is_open()) throw runtime_error(("������ ������ � " + fname).c_str());
+    if (!out.is_open()) throw runtime_error(("Не удалось открыть файл для записи: " + fname).c_str());
 
-    out << "ID,���,�������,�����,������,������,����,�����,���\n";
+    out << "ID,ФИО,Телефон,Тариф,Скидка,Минуты,День,Месяц,Год\n";
     for (const auto& p : list_) {
         out << p.getId() << "," << p.getName() << "," << p.getPhone() << "," << p.getTariff() << "," << p.getDiscount()
             << "," << p.getTimeMin() << "," << p.getDate().getDay() << "," << p.getDate().getMonth() << "," << p.getDate().getYear() << "\n";
@@ -83,20 +121,20 @@ void Payers::saveToCSV(const string& fname) const {
 }
 
 void Payers::loadFromCSV(const string& fname) {
-    if (fname.empty()) throw runtime_error("CSV: ������ ��� �����.");
+    if (fname.empty()) throw runtime_error("CSV: пустое имя файла.");
 
     ifstream in(fname);
-    if (!in.is_open()) throw runtime_error(("CSV: �� ������� ������� ���� " + fname + " ��� ������.").c_str());
+    if (!in.is_open()) throw runtime_error(("CSV: не удалось открыть файл " + fname).c_str());
 
     string line;
-    if (!getline(in, line)) throw runtime_error("CSV: ���� ����.");
+    if (!getline(in, line)) throw runtime_error("CSV: ошибка чтения заголовка.");
 
     {
         istringstream iss(line);
         string token;
-        if (!getline(iss, token, ',')) throw runtime_error("CSV: �������� ���������.");
-        if (token != "ID") throw runtime_error("CSV: �������� ��������� (��������� ID).");
-        // �������� ��� ��������� ���������� ����������, �� �������� �� �������
+        if (!getline(iss, token, ',')) throw runtime_error("CSV: неверный заголовок.");
+        if (token != "ID") throw runtime_error("CSV: неверный заголовок (ожидается ID).");
+        // Заголовок корректен: далее ожидается набор полей в фиксированном порядке
     }
 
     list_.clear();
@@ -110,24 +148,24 @@ void Payers::loadFromCSV(const string& fname) {
 
         iss >> id;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: �������� ������ ������ (����� ID).");
+        if (iss.get() != ',') throw runtime_error("CSV: неверный разделитель (ожидается запятая после ID).");
         getline(iss, name, ',');
         getline(iss, phone, ',');
         iss >> tariff;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: �������� ������ ������ (����� ������).");
+        if (iss.get() != ',') throw runtime_error("CSV: неверный разделитель (ожидается запятая после тарифа).");
         iss >> discount;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: �������� ������ ������ (����� ������).");
+        if (iss.get() != ',') throw runtime_error("CSV: неверный разделитель (ожидается запятая после скидки).");
         iss >> timeMin;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: �������� ������ ������ (����� �����).");
+        if (iss.get() != ',') throw runtime_error("CSV: неверный разделитель (ожидается запятая после минут).");
         iss >> d;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: �������� ������ ������ (����� ���).");
+        if (iss.get() != ',') throw runtime_error("CSV: неверный разделитель (ожидается запятая после дня).");
         iss >> m;
         checkInputFormat(iss);
-        if (iss.get() != ',') throw runtime_error("CSV: �������� ������ ������ (����� ������).");
+        if (iss.get() != ',') throw runtime_error("CSV: неверный разделитель (ожидается запятая после месяца).");
         iss >> y;
         checkInputFormat(iss);
 
@@ -143,5 +181,5 @@ void Payers::loadFromCSV(const string& fname) {
         nextId_ = max(nextId_, p.getId() + 1);
     }
 
-    if (list_.empty()) throw runtime_error("CSV: � ����� ��� ��������� ��� ��������.");
+    if (list_.empty()) throw runtime_error("CSV: в файле нет записей для загрузки.");
 }

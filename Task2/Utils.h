@@ -1,55 +1,55 @@
 #pragma once
 #include "Palette.h"
 
-// ����� �������� �������
+// Утилиты и вспомогательные функции
 
-// ������ "�������" ������ ��������� ����������
+// Размер поля вывода таблицы
 const int W = 84;
 
-// ��������� ��� ������� �� 12.01.2026 
-// �������� ����� � �������, ��/�
-// ��������: https://www.asutpp.ru/skorost-sveta.html 
+// Константы и ссылки
+// Источник скорости (для примера): https://www.asutpp.ru/skorost-sveta.html
 const double C = 1'080'000'000;
 
 
-// ��������� ���������� ������� � ������ ����������
-void init(const wstring &title = L"��������� ����������");
+// Инициализация консоли и параметров приложения
+void init(const wstring &title = L"Консольное приложение");
 
-// ��������� ���� ������� �������
-int getKey(const string &message = "\t    ������� ����� ������� ��� �����������...");
+// Ожидание нажатия клавиши с подсказкой
+int getKey(const string &message = "\t    Нажмите любую клавишу для продолжения...");
 
-// ��������� ���������� �����
+// Генерация случайных значений
 int    getRand(int    low, int    high);
 double getRand(double low, double high);
 float  getRand(float  low, float  high);
 char   getRand(char   low, char   high);
 
-// ������� ����� �������
+// Управление цветом и ввод
 void setColor(short color);
 
-// ���� ������ �����
+// Ввод целого числа
 int getInt();
 
-// ������� ��� ������ ������� ������ ���� ��� ������� ������
+// Показать сообщение в навигационной строке консоли
 void showNavBarMessage(short hintColor, const string &message);
 void showNavBarMessage(short hintColor, short acctColor, const string &message);
 
-// ����� ��������� "� ����������" 
+// Показать сообщение "В разработке"
 void showUnderConstruction(short width, short mainColor, short infoColor);
 
-// ����� ��������� ��������� ���������
+// Вывод сообщений и элементов интерфейса
 void showMessage(const string &msg, short msgColor, short mainColor);
 
-// ����� ����������� �� �����, ������������� ������ �����, ���� �������������
-// � �������� color
-void showInputLine(const string &prompt = "������� �����:", short n = 19, short color = infoColor);
+// Ввод строки с подсказкой
+// prompt: подсказка, n: ширина поля, color: цвет поля
+void showInputLine(const string &prompt = "Введите число:", short n = 19, short color = infoColor);
 
-// �������� ������� �����
+// Проверка формата ввода
 void checkInputFormat(istream& is);
 
 // ---------------------------------------------------------------------------------
-#pragma region ���������� �������� � WinAPI
-// ��������� ������� ������ �������
+#pragma region WinAPI_helpers
+// Работа с WinAPI и консолью
+// Функции управления курсором и буфером
 COORD getConsoleSize();
 
 void showCursor(bool mode);
@@ -63,27 +63,26 @@ void cls();
 #pragma endregion
 
 
-#pragma region ���������� ������������� ������
-// �������� ������������ ������ ��� ���������
+#pragma region stream_manipulators
+// Потоковые манипуляторы и классы-утилиты
 
-// "�����������" ������ ��� ���������� ��� ������� ������
-// cout << cls;
+// Очистка экрана: cout << cls;
 ostream& cls(ostream& os);
 // cin >> cls;
-istream& cls(istream& os);
+istream& cls(istream& is);
 
-// "�����������" ������ ��� ���������� ��� ������ ������� ���������
-// cout << tab;
+// Табуляция: cout << tab;
 ostream& tab(ostream& os);
 
-// "�����������" ������ ��� ��������� ���������� �������
+// Включить курсор: cout << cursor
 ostream& cursor(ostream& os);
 istream& cursor(istream& is);
 
-// "�����������" ������ ��� ���������� ���������� �������
+// Отключить курсор: cout << nocursor
 ostream& nocursor(ostream& os);
 istream& nocursor(istream& is);
 
+// Печать нескольких переводов строки: cout << endlm(n)
 class endlm
 {
     int n_;
@@ -93,6 +92,7 @@ public:
     friend ostream& operator<<(ostream& os, const endlm& obj);
 };
 
+// Класс-манипулятор цвета
 class color
 {
     short color_;
@@ -103,6 +103,7 @@ public:
     friend istream& operator>>(istream& is, const color& obj);
 };
 
+// Класс-позиция курсора
 class pos
 {
     short x_;

@@ -3,13 +3,13 @@
 #include <locale>
 #include <cctype>
 
-// ������������ ��������� ������� ����
+// Построить частотный словарь слов из файла
 map<string, double> TextProcessor::makeWordsFrequencyDict(const string& fileName) {
     map<string, double> freqDict;
 
     fstream fs(fileName, ios::in);
     if (!fs.is_open()) {
-        throw exception(("TextProcessor: ������ �������� ����� " + fileName + " ��� ������").c_str());
+        throw exception(("TextProcessor: Не удалось открыть файл " + fileName).c_str());
     }
     fs.imbue(locale(".1251"));
 
@@ -38,7 +38,7 @@ map<string, double> TextProcessor::makeLettersFrequencyDict(const string& fileNa
 
     fstream fs(fileName, ios::in);
     if (!fs.is_open()) {
-        throw exception(("TextProcessor: ������ �������� ����� " + fileName + " ��� ������").c_str());
+        throw exception(("TextProcessor: Не удалось открыть файл " + fileName).c_str());
     }
     fs.imbue(locale(".1251"));
 

@@ -87,7 +87,7 @@ void Requests::loadFromBinaryFixed(const string& fname) {
 
 void Requests::swapFirstLastInFile(const string& fname) {
     fstream f(fname, ios::binary | ios::in | ios::out);
-    if (!f.is_open()) throw exception(("������ �������� " + fname).c_str());
+    if (!f.is_open()) throw exception(("Не удалось открыть файл " + fname).c_str());
 
     f.seekg(0, ios::end);
     size_t fileSize = static_cast<size_t>(f.tellg());

@@ -1,23 +1,23 @@
 #include "pch.h"
 #include "Date.h"
 
-// ������ ��� ����
+// Установка даты с проверкой корректности
 void Date::setDate(short day, short month, short year) {
-    // ���� ��������� �� �������� ���������� ���� - ����������� ����������
+    // Проверяем корректность даты
     char buf[1024];
     if (!dateValid(day, month, year)) {
-        sprintf(buf, "%02d/%02d/%04d - ������������ ����", day, month, year);
+        sprintf(buf, "%02d/%02d/%04d - некорректная дата", day, month, year);
         throw exception(buf);
     } // if
 
-    // ���������� ������ - ��������� ����� ��������
+    // Сохраняем значения
     day_ = day;
     month_ = month;
     year_ = year;
 } // Date::setDate
 
 
-// ����� ���� � ������
+// Преобразовать дату в строковый формат DD.MM.YYYY
 string Date::toString() const {
     ostringstream oss;
     oss << setw(2) << setfill('0') << day_ << "."
