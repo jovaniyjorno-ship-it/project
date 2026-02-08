@@ -4,18 +4,19 @@
 App::App() {}
 
 void App::printList(const list<Request>& lst, const string& title) const {
-    cout << "     " << title << "\n"
-        << "     +" << setfill('-') << setw(98) << "-" << "+"
-        << setfill(' ') << "\n";
+    cout << "     ";
+    printCp1251(title);
+    cout << "\n";
+    cout << "     +" << setfill('-') << setw(98) << "-" << "+" << setfill(' ') << "\n";
 
     int row = 1;
     for (const auto& r : lst) {
         cout << " " << setfill('0') << setw(3) << row++ << setfill(' ')
-            << " | ID: " << setw(4) << r.id
-            << " | �����: " << setw(10) << r.destination
-            << " | ����: " << setw(12) << r.flightNum
-            << " | ��������: " << setw(15) << r.passenger
-            << " | ����: " << r.date.toString() << " |\n";
+            << " | ID: " << setw(4) << r.getId() << " | ";
+        printCp1251("Пункт: "); cout << setw(10) << r.getDestination(); cout << " | ";
+        printCp1251("Рейс: "); cout << setw(12) << r.getFlightNum(); cout << " | ";
+        printCp1251("Пассажир: "); cout << setw(15) << r.getPassenger(); cout << " | ";
+        printCp1251("Дата: "); cout << r.getDate().toString() << " |\n";
     }
     cout << "     +" << setfill('-') << setw(98) << "-" << "+"
         << setfill(' ') << "\n";
